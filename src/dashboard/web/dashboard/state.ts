@@ -1,0 +1,81 @@
+/*
+ * Created on Fri Nov 13 2026
+ *
+ * Copyright (c) huni-ee. Licensed under the Apache-2.0 License.
+ */
+
+import { getDashboardView } from './session.js';
+import type {
+  Channel,
+  Member,
+  Friend,
+  Self,
+  OpenGroup,
+  UpdatedProfile,
+  RoleEntry,
+  SelfProfile,
+  PostDetail,
+  ConnectionState
+} from './types.js';
+
+const initialView = getDashboardView();
+export const state = {
+  tab: initialView.tab,
+  connection: 'checking' as ConnectionState,
+  selectedChannelId: null as string | null,
+  selectedMemberId: null as string | null,
+  selectedOpenGroupKey: null as string | null,
+  selectedFriendKey: null as string | null,
+  selectedSelf: false,
+  roleView: initialView.roleView,
+  channels: [] as Channel[],
+  ownOpenGroups: [] as OpenGroup[],
+  channelsLoaded: false,
+  channelsLoading: false,
+  channelsReloadPending: false,
+  channelsError: '',
+  members: new Map<string, Member[]>(),
+  memberErrors: new Map<string, string>(),
+  membersLoading: new Set<string>(),
+  membersReloadPending: new Set<string>(),
+  roles: { admin: new Map<string, RoleEntry>(), ban: new Map<string, RoleEntry>() },
+  rolesLoaded: false,
+  rolesLoading: false,
+  rolesError: '',
+  me: null as Self,
+  meLoaded: false,
+  meLoading: false,
+  meReloadPending: false,
+  meError: '',
+  selfProfile: null as SelfProfile | null,
+  selfProfileLoading: false,
+  selfProfileError: '',
+  selfPosts: new Map<string, Promise<PostDetail>>(),
+  friends: [] as Friend[],
+  friendCreatedAt: {},
+  friendProfiles: new Map<string, unknown>(),
+  friendMemos: new Map(),
+  friendMemoErrors: new Map(),
+  friendMemosLoading: new Set<string>(),
+  friendPosts: new Map<string, Promise<PostDetail>>(),
+  friendPostPagination: new WeakMap(),
+  friendPostFilters: new Map(),
+  friendProfileErrors: new Map(),
+  friendProfilesLoading: new Set<string>(),
+  friendsVersion: 0,
+  friendListReloadPending: false,
+  updatedProfiles: [] as UpdatedProfile[],
+  birthdayDetails: {} as Record<string, unknown[]>,
+  updatedFriendsExpanded: true,
+  birthdayFriendsExpanded: true,
+  favoritesExpanded: true,
+  friendsExpanded: true,
+  hiddenFriendsExpanded: false,
+  friendsLoaded: false,
+  friendsLoading: false,
+  friendsError: '',
+  listQuery: '',
+  memberQuery: '',
+  mobileSelection: false,
+  pending: new Set<string>()
+};

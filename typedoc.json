@@ -1,0 +1,48 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Nazu",
+  "entryPoints": [
+    "src/client/index.ts",
+    "src/channel/index.ts",
+    "src/chat/index.ts",
+    "src/user/index.ts",
+    "src/kakao-link/index.ts",
+    "src/decorators/index.ts"
+  ],
+  "out": "docs",
+  "readme": "none",
+  "lang": "ko",
+  "plugin": ["typedoc-plugin-markdown"],
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "intentionallyNotExported": ["src/client/listeners.ts:ClientListenerMap", "src/decorators/index.ts:MessageDecorator"],
+  "router": "member",
+  "membersWithOwnFile": ["Class"],
+  "flattenOutputFiles": true,
+  "disableSources": true,
+  "hidePageHeader": true,
+  "hideBreadcrumbs": true,
+  "useCodeBlocks": true,
+  "pageTitleTemplates": {
+    "index": "{projectName}",
+    "module": "{name}",
+    "member": "{name}"
+  },
+  "parametersFormat": "table",
+  "classPropertiesFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "typeAliasPropertiesFormat": "table",
+  "typeDeclarationFormat": "table",
+  "indexFormat": "table",
+  "locales": {
+    "ko": {
+      "kind_method": "메서드",
+      "kind_plural_method": "메서드",
+      "theme_returns": "반환값",
+      "theme_type": "타입",
+      "theme_default_type": "기본 타입",
+      "theme_default_value": "기본값"
+    }
+  }
+}
