@@ -12,7 +12,7 @@ import { initSelfProfile } from './self-profile.js';
 
 const profiles = new WeakMap<Database.Database, Map<string, SelfProfile>>();
 
-/** 인증 정보로 메인 프로필을 초기화한다. */
+/** 인증 정보로 메인 프로필을 조회해 저장한다. */
 export async function initAuth(credential: Credential): Promise<KakaoAuthData> {
   return saveAuthProfile(credential, await initSelfProfile(credential));
 }
@@ -62,7 +62,7 @@ function readAuth(userId: string, database: Database.Database | null = getDataba
   }
 }
 
-/** 계정 ID로 내 프로필을 가져온다. */
+/** 계정 ID로 저장된 내 프로필을 읽는다. */
 export function getSelfProfile(userId: string, database: Database.Database | null = getDatabase()): SelfProfile | null {
   if (database === null) return null;
   const cached = profiles.get(database)?.get(userId);

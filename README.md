@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/node-%3E%3D22-339933?logo=node.js&logoColor=white" alt="Node.js 22+">
+  <img src="https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white" alt="Node.js 24+">
   <img src="https://img.shields.io/badge/types-TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript 타입 포함">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0"></a>
   <a href="https://nazu.huniee.dev/docs"><img src="https://img.shields.io/badge/docs-nazu.huniee.dev-f5c542" alt="문서"></a>
@@ -19,7 +19,7 @@
 
 ### 준비
 
-- Node.js 22 이상 (24 이상 권장)
+- Node.js 24.11 이상 (최신 LTS 권장)
 - 실행 중인 Arisa 서버: 설치 방법은 [환경 준비 문서](https://nazu.huniee.dev/docs)를 참고하세요.
 
 ### 설치

@@ -45,7 +45,7 @@ export function initDatabase(): Database.Database {
   return openedDatabase;
 }
 
-/** 데이터베이스를 가져온다. */
+/** 초기화한 데이터베이스를 돌려준다. 초기화 전이면 `null`이다. */
 export function getDatabase(): Database.Database | null {
   return database;
 }

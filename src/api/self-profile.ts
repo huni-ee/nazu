@@ -57,7 +57,7 @@ function requestSelfPostPage(credential: Credential, profileId: string, cursor: 
   });
 }
 
-/** 메인 프로필을 찾아 표시 정보와 상세 프로필을 함께 가져온다. */
+/** 메인 프로필을 찾아 표시 정보와 상세 프로필을 함께 조회한다. */
 export async function initSelfProfile(credential: Credential): Promise<SelfProfileDetail> {
   const { revision, main } = await getMainProfile(credential);
   const profile = getJson<SelfProfileResponse>(await requestSelfProfile(credential, main.profileId));
@@ -79,7 +79,7 @@ export async function initSelfPosts(credential: Credential, postIds: readonly st
   return { ...posts, profileId: String(posts.profileId) };
 }
 
-/** 최신 프로필 목록에서 메인 프로필을 찾아 게시물 다음 페이지를 가져온다. */
+/** 최신 프로필 목록에서 메인 프로필을 찾아 게시물 다음 페이지를 조회한다. */
 export async function initSelfPostPage(credential: Credential, cursor: string): Promise<SelfPostPageResponse> {
   const { main } = await getMainProfile(credential);
   return getJson<SelfPostPageResponse>(await requestSelfPostPage(credential, main.profileId, cursor));

@@ -478,7 +478,7 @@
       </header>
       <div class="home-tool-result">
         <div class="home-query-result">
-          <!-- svelte-ignore a11y_no_noninteractive_tabindex: keyboard users can scroll long results. -->
+          <!-- svelte-ignore a11y_no_noninteractive_tabindex: 긴 결과를 키보드로 스크롤할 수 있게 한다. -->
           <pre
             class="home-query-json"
             tabindex="0"

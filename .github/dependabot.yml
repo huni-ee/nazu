@@ -5,7 +5,6 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      # 지원하는 가장 낮은 Node.js 버전(22)에 맞춘다.
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions

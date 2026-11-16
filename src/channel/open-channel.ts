@@ -14,9 +14,9 @@ import { OpenUser } from '../user/open-user.js';
 import { UserSelf } from '../user/user-self.js';
 import { Channel } from './channel.js';
 
-/** 오픈채팅방입니다. */
+/** 오픈채팅방 */
 export class OpenChannel extends Channel {
-  /** 오픈채팅방 종류입니다. */
+  /** 오픈채팅방 종류 */
   declare readonly type: OpenChannelType;
 
   /** @internal 이벤트나 클라이언트가 만든 객체를 쓰세요. */
@@ -52,8 +52,8 @@ export class OpenChannel extends Channel {
   /**
    * @internal 서버의 멤버 데이터로 유저를 만듭니다.
    *
-   * @param member 서버의 멤버 데이터입니다.
-   * @param botName 클라이언트에 설정한 봇 이름입니다.
+   * @param member 서버의 멤버 데이터
+   * @param botName 클라이언트에 설정한 봇 이름
    */
   createUser(member: Member, botName: string | null = null): OpenUser | UserSelf {
     if (member.isMine) return UserSelf.fromOpen(member, botName);

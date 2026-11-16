@@ -31,7 +31,7 @@ async function readDirectNames(
           );
           if (peer) names.set(channel.id, peer.name.trim());
         } catch {
-          // 한 방의 멤버 조회가 실패해도 다른 방 이름은 계속 조회한다.
+          // 한 채팅방의 멤버 조회가 실패해도 다른 채팅방 이름은 계속 조회한다.
         }
       }
     })
@@ -57,7 +57,7 @@ async function readOpenDirectImages(
           const image = profileImageUrl(peers[0]?.profileImageUrl);
           if (image) images.set(channel.id, image);
         } catch {
-          // 상대 프로필을 가져오지 못한 방은 기본 이미지를 사용한다.
+          // 상대 프로필을 가져오지 못한 채팅방은 기본 이미지를 쓴다.
         }
       }
     })
@@ -121,12 +121,12 @@ export async function handleChannelRoute(context: RouteContext): Promise<boolean
           client.getOwnOpenProfileChannelLinks(accountId)
         ]);
       } catch {
-        // 채팅 목록은 유지하고 프로필 분류만 사용 불가로 표시한다.
+        // 채팅방 목록은 유지하고 프로필 분류만 사용 불가로 표시한다.
       }
       try {
         profileHomeChannelIds = await client.getOwnOpenProfileHomeChannelIds(accountId);
       } catch {
-        // 홈 항목을 확인하지 못하면 기존 채팅 목록을 그대로 유지한다.
+        // 홈 항목을 확인하지 못하면 채팅방 목록을 그대로 둔다.
       }
       try {
         const [directChats, directChannels] = await Promise.all([
@@ -142,7 +142,7 @@ export async function handleChannelRoute(context: RouteContext): Promise<boolean
           )
         );
       } catch {
-        // 분류 조회가 실패하면 채팅방 목록을 그대로 유지한다.
+        // 분류 조회가 실패하면 채팅방 목록을 그대로 둔다.
       }
     }
     const ownOpenProfileIds = new Set(ownOpenProfiles?.map((profile) => profile.id));
@@ -168,7 +168,7 @@ export async function handleChannelRoute(context: RouteContext): Promise<boolean
           })
         ]);
       } catch {
-        // 일부 이미지 조회가 늦어져도 채팅 목록은 반환한다.
+        // 일부 이미지 조회가 늦어져도 채팅방 목록은 돌려준다.
       } finally {
         clearTimeout(timer);
       }
@@ -191,7 +191,7 @@ export async function handleChannelRoute(context: RouteContext): Promise<boolean
           })
         ]);
       } catch {
-        // 이름 조회에 실패해도 채팅방 목록은 반환한다.
+        // 이름 조회에 실패해도 채팅방 목록은 돌려준다.
       } finally {
         clearTimeout(timer);
       }

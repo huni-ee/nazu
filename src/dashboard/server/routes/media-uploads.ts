@@ -54,7 +54,7 @@ async function readChunk(request: IncomingMessage): Promise<Buffer> {
   return Buffer.concat(parts, length);
 }
 
-/** 브라우저의 조각을 파일 전체를 보관하지 않고 Arisa 스트림으로 전달한다. */
+/** 브라우저가 보낸 조각을 모아 두지 않고 바로 Arisa 스트림으로 넘긴다. */
 export function createMediaUploadRoute(client: DashboardClient) {
   const sessions = new Map<string, Upload>();
   let closed = false;

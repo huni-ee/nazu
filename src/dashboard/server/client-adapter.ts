@@ -29,7 +29,7 @@ function description(value: unknown): string | null {
   return typeof value === 'string' && value.trim() ? value : null;
 }
 
-/** ArisaClient의 조회 기능을 대시보드에서 사용한다. */
+/** 대시보드가 쓸 수 있게 `ArisaClient`의 조회 기능을 감싼다. */
 export function createClientAdapter(bridge: DashboardBridge): DashboardClient {
   const initializedDatabases = new WeakSet<Database.Database>();
 

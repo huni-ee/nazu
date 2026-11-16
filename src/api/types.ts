@@ -29,36 +29,24 @@ export interface Credential {
 
 /** 인증 정보와 메인 프로필 */
 export interface KakaoAuthData {
-  /**
-   * 카카오톡 액세스 토큰
-   */
+  /** 액세스 토큰 */
   readonly accessToken: string;
 
-  /**
-   * 카카오톡 리프레시 토큰
-   */
+  /** 리프레시 토큰 */
   readonly refreshToken: string;
 
-  /**
-   * 카카오톡 기기 UUID
-   */
+  /** 기기 UUID */
   readonly deviceUuid: string;
 
-  /**
-   * 프로필 목록 리비전
-   */
+  /** 프로필 목록 리비전 */
   readonly revision: number;
 
-  /**
-   * 메인 프로필 정보
-   */
+  /** 메인 프로필 정보 */
   readonly raw: {
     readonly user: SelfProfile;
   };
 
-  /**
-   * 내 프로필 API 응답 상태 코드
-   */
+  /** 내 프로필 API 응답 상태 코드 */
   readonly status: number;
 }
 
@@ -72,7 +60,7 @@ export interface FriendsSyncResponse extends KakaoResponse {
   readonly friends: unknown[];
 }
 
-/** 사용자 ID별 친구 추가 시각 (Unix 초) */
+/** 유저 ID별 친구 추가 시각 (Unix 초) */
 export interface FriendsCreatedAtResponse extends KakaoResponse {
   readonly createdAt: Readonly<Record<string, number>>;
 }
@@ -132,7 +120,7 @@ export interface MainProfile {
   /** 프로필 상태 메세지 */
   readonly statusMessage: string;
 
-  /** 원본 프로필 이미지 URL */
+  /** 원본 크기 프로필 이미지 주소 */
   readonly originalProfileImageUrl: string;
 
   /** 메인 프로필 여부 */
@@ -150,7 +138,7 @@ export interface ProfileListResponse extends KakaoResponse {
 
 /** 내 프로필 상세 응답 */
 export interface SelfProfileResponse extends KakaoResponse {
-  /** 로그인한 카카오톡 사용자 ID */
+  /** 로그인한 카카오톡 유저 ID */
   readonly userId: string;
 }
 
@@ -167,7 +155,7 @@ export interface SelfProfileDetail {
     /** 프로필 상태 메세지 */
     readonly statusMessage: string;
 
-    /** 원본 프로필 이미지 URL */
+    /** 원본 크기 프로필 이미지 주소 */
     readonly originalProfileImageUrl: string;
   };
 

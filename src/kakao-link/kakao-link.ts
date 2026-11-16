@@ -23,7 +23,7 @@ const ANDROID_WEBVIEW_UA =
   'AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 ' +
   'Chrome/126.0.6478.134 Mobile Safari/537.36';
 
-/** 카카오링크 오류의 공통 부모입니다. 모든 카카오링크 오류는 이 클래스를 상속합니다. */
+/** 카카오링크 오류의 공통 부모 */
 export class KakaoLinkException extends Error {
   constructor(message = '') {
     super(message);
@@ -43,31 +43,31 @@ export class KakaoLink2FAException extends KakaoLinkException {}
 /** 메세지 전송에 실패하면 발생합니다. */
 export class KakaoLinkSendException extends KakaoLinkException {}
 
-/** 수신자를 찾을 범위입니다. `ALL`은 친구와 채팅방 모두, `FRIENDS`는 친구만, `CHATROOMS`는 채팅방만 찾습니다. */
+/** 수신자를 찾을 범위. `ALL`은 친구와 채팅방 모두, `FRIENDS`는 친구만, `CHATROOMS`는 채팅방만 찾습니다. */
 export type SearchFrom = 'ALL' | 'FRIENDS' | 'CHATROOMS';
 
-/** 찾을 채팅방 종류입니다. `OpenMultiChat`은 그룹 오픈채팅, `MultiChat`은 일반 그룹 채팅, `DirectChat`은 1:1 채팅입니다. */
+/** 찾을 채팅방 종류. `OpenMultiChat`은 그룹 오픈채팅, `MultiChat`은 일반 그룹 채팅, `DirectChat`은 1:1 채팅 */
 export type SearchRoomType = 'ALL' | 'OpenMultiChat' | 'MultiChat' | 'DirectChat';
 
-/** {@link KakaoLink}를 만들 때 넘기는 설정입니다. */
+/** {@link KakaoLink}를 만들 때 넘기는 설정 */
 export interface KakaoLinkOptions {
-  /** Kakao Developers에서 발급받은 JavaScript 키입니다. */
+  /** Kakao Developers에서 발급받은 JavaScript 키 */
   readonly appKey: string;
 
-  /** Kakao Developers에 등록한 웹 플랫폼 도메인입니다. */
+  /** Kakao Developers에 등록한 웹 플랫폼 도메인 */
   readonly origin: string;
 }
 
-/** `send()`에 넘기는 전송 옵션입니다. */
+/** `send()`에 넘기는 전송 옵션 */
 export interface KakaoLinkSendOptions {
-  /** 받을 채팅방이나 친구의 이름입니다. */
+  /** 받을 채팅방이나 친구의 이름 */
   receiverName: string;
 
-  /** 메세지 템플릿 ID입니다. */
+  /** 메세지 템플릿 ID */
   templateId: number;
 
   /**
-   * 메세지 템플릿에 넣을 인자입니다.
+   * 메세지 템플릿에 넣을 인자
    * @defaultValue `{}`
    */
   templateArgs?: Record<string, unknown>;
@@ -79,13 +79,13 @@ export interface KakaoLinkSendOptions {
   searchExact?: boolean;
 
   /**
-   * 수신자를 찾을 범위입니다.
+   * 수신자를 찾을 범위
    * @defaultValue `'ALL'`
    */
   searchFrom?: SearchFrom;
 
   /**
-   * 찾을 채팅방 종류입니다. 채팅방 종류가 있는 수신자에만 적용합니다.
+   * 찾을 채팅방 종류. 채팅방 종류가 있는 수신자에만 적용합니다.
    * @defaultValue `'ALL'`
    */
   searchRoomType?: SearchRoomType;
@@ -138,10 +138,10 @@ export class KakaoLink {
   /**
    * 메세지 템플릿을 보냅니다. 조건에 맞는 수신자가 여럿이면 처음 찾은 수신자에게 보냅니다.
    *
-   * @param options 수신자, 템플릿, 검색 조건입니다.
-   * @throws {@link KakaoLinkLoginException} `init()` 전에 호출하면 발생합니다.
-   * @throws {@link KakaoLinkReceiverNotFoundException} 수신자를 찾지 못하면 발생합니다.
-   * @throws {@link KakaoLinkSendException} 전송에 실패하면 발생합니다.
+   * @param options 수신자, 템플릿, 검색 조건
+   * @throws {@link KakaoLinkLoginException} `init()` 전에 호출할 때
+   * @throws {@link KakaoLinkReceiverNotFoundException} 수신자를 찾지 못했을 때
+   * @throws {@link KakaoLinkSendException} 전송에 실패했을 때
    */
   async send({
     receiverName,
@@ -307,8 +307,8 @@ export class KakaoLink {
   /**
    * Arisa의 인증 정보로 카카오링크에 로그인합니다. `send()` 전에 끝나 있어야 합니다.
    *
-   * @throws {@link KakaoLinkLoginException} 로그인에 실패하면 발생합니다.
-   * @throws {@link KakaoLink2FAException} 추가 인증을 처리하지 못하면 발생합니다.
+   * @throws {@link KakaoLinkLoginException} 로그인에 실패했을 때
+   * @throws {@link KakaoLink2FAException} 추가 인증을 처리하지 못했을 때
    */
   async init(): Promise<void> {
     if (this.initialization !== null) return this.initialization;

@@ -119,7 +119,7 @@ function sqlTokens(sql: string): SqlToken[] {
   return tokens;
 }
 
-/** 홈에서는 Arisa의 RawQuery를 조회 용도로만 사용한다. */
+/** 홈 SQL은 Arisa의 RawQuery로 실행하므로 조회 문장만 허용한다. */
 export function validateHomeSql(value: unknown): string {
   if (typeof value !== 'string' || !value.trim() || value.length > 3000 || value.includes('\0')) {
     throw new HttpError(400, 'SQL을 1~3000자로 입력해 주세요.');

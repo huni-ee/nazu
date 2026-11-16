@@ -9,8 +9,8 @@ import type { IconConfig, NavBarConfig, SiteConfig } from './types/config.js';
 export const siteConfig: SiteConfig = {
   title: 'Arisa Dashboard', // 브라우저 탭 제목
   themeColor: {
-    hue: 165, // 테마 색상. 0~360 범위이며 기본값은 165입니다.
-    fixed: false // true로 설정하면 테마 색상 선택기를 숨깁니다.
+    hue: 165, // 테마 색상. 0~360, 기본값 165
+    fixed: false // true면 테마 색상 선택기를 숨깁니다.
   },
   favicon: [
     {
@@ -26,7 +26,7 @@ export const navBarConfig: NavBarConfig = {
       id: 'nav-home',
       name: '홈',
       icon: 'home',
-      active: true // 초기 화면은 홈입니다.
+      active: true // 처음 여는 화면
     },
     {
       id: 'nav-friends', // 메뉴 동작을 연결하는 ID

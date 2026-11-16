@@ -14,7 +14,9 @@ import {
   JoinFeedChat,
   KickFeedChat,
   LeaveFeedChat,
+  ManagerSpeakerModeFeedChat,
   type MemberTypeChangeFeedChat,
+  OpenChannelDeleteFeedChat,
   PromoteFeedChat,
   UnknownFeedChat,
   parseUnknownFeed
@@ -188,6 +190,27 @@ export class EventHandler {
       return;
     }
 
+    if (feed.$case === 'openLinkDeleted') {
+      if (!this.listeners.has('feed')) return;
+
+      const channel = await this.helper.createChannel(feedEvent.channel);
+      const user = await this.helper.createUser(channel, feedEvent.author);
+      const chat = new OpenChannelDeleteFeedChat(user);
+      await this.listeners.emit('feed', chat, channel);
+      return;
+    }
+
+    if (feed.$case === 'managerSpeakerMode') {
+      if (!this.listeners.has('feed')) return;
+
+      const channel = await this.helper.createChannel(feedEvent.channel);
+      const user = await this.helper.createUser(channel, feedEvent.author);
+      // Arisa는 관리자만 말하기를 해제할 때 enabled를 true로 보낸다.
+      const chat = new ManagerSpeakerModeFeedChat(!feed.managerSpeakerMode.enabled, user);
+      await this.listeners.emit('feed', chat, channel);
+      return;
+    }
+
     if (feed.$case === 'unknown') {
       if (!this.listeners.has('feed')) return;
 
@@ -204,7 +227,7 @@ export class EventHandler {
     }
   }
 
-  /** 이벤트에 대응하는 리스너 이름을 반환한다. */
+  /** 이벤트에 대응하는 리스너 이름을 돌려준다. */
   eventName(event: Event): string {
     if (event.value?.$case === 'message') return 'message';
     if (event.value?.$case !== 'feed') return 'unknown';
@@ -231,7 +254,7 @@ export class EventHandler {
     await this.listeners.emit('message', chat, channel);
   }
 
-  /** 방장·관리자 변경 이벤트를 전달한다. */
+  /** 방장·부방장 변경 이벤트를 전달한다. */
   private async handleMemberChange(
     channelData: ChannelData,
     author: Member | undefined,

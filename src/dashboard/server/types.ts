@@ -52,7 +52,7 @@ export interface DashboardChannel {
   enter(): Promise<void>;
 }
 
-/** 오픈 유저 ID로 찾은 방별 프로필과 해당 채팅방. */
+/** 오픈채팅 유저 ID로 찾은 프로필과 그 채팅방 */
 export interface DashboardOpenUserContext {
   readonly channel: DashboardChannel;
   readonly user: DashboardToolUser;

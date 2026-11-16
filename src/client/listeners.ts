@@ -20,7 +20,7 @@ import type {
   OpenProfileChangeListener
 } from '../types/event.js';
 
-/** 클라이언트 이벤트 */
+/** 이벤트 이름별 리스너 타입 */
 export interface ClientListenerMap {
   readonly message: MessageListener;
   readonly error: ErrorListener;
@@ -61,7 +61,7 @@ export class Listeners {
     this.list(event).push(listener);
   }
 
-  /** 이벤트 리스너 등록을 해제한다. */
+  /** 이벤트 리스너를 해제한다. */
   off<Name extends ListenerName>(event: Name, listener: ClientListenerMap[Name]): void {
     const listeners = this.list(event);
     const index = listeners.indexOf(listener);
@@ -85,7 +85,7 @@ export class Listeners {
     }
   }
 
-  /** 리스너에서 발생한 오류를 오류 이벤트로 전달한다. */
+  /** 리스너에서 난 오류를 `error` 이벤트로 전달한다. */
   async emitError(event: string, func: unknown, exception: unknown, args: readonly unknown[]): Promise<void> {
     if (event === 'error' || !this.has('error')) {
       console.error(exception);

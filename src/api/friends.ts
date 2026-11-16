@@ -75,7 +75,7 @@ function requestFriendProfile(
   });
 }
 
-/** 해당 친구에 대해 내가 저장한 메모를 조회한다. */
+/** 친구에 대해 내가 저장한 메모를 조회한다. */
 function requestFriendMemo(credential: Credential, userId: string): Promise<FriendRequestResult> {
   return axios.get<string>(`https://talk-pilsner.kakao.com/talk/friends/memo/${encodeURIComponent(userId)}`, {
     headers: getHeaders(credential),
@@ -108,7 +108,7 @@ function requestFriendPostPage(credential: Credential, userId: string, cursor: s
   });
 }
 
-/** 친구 동기화·추가 시각·생일·프로필 업데이트 목록을 함께 가져온다. */
+/** 친구 동기화·추가 시각·생일·프로필 업데이트 목록을 함께 조회한다. */
 export async function initFriendsList(credential: Credential): Promise<FriendsListData> {
   const [sync, createdAt, birthday, updated] = await Promise.all([
     requestFriendsSync(credential),
@@ -135,7 +135,7 @@ export async function initFriendProfile(
   return { ...profile, userId: String(profile.userId) };
 }
 
-/** 해당 친구에 대해 내가 저장한 메모를 조회하고 응답 JSON을 읽는다. */
+/** 친구에 대해 내가 저장한 메모를 조회하고 응답 JSON을 읽는다. */
 export async function initFriendMemo(credential: Credential, userId: string): Promise<FriendMemoResponse> {
   return getJson<FriendMemoResponse>(await requestFriendMemo(credential, userId));
 }

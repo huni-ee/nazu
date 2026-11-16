@@ -24,7 +24,6 @@ type GrpcAccess = Pick<ArisaGrpc, 'rawQuery' | 'decrypt'>;
 export class GrpcStore implements Store {
   constructor(private readonly grpc: GrpcAccess) {}
 
-  /** 메세지를 읽은 유저 아이디를 조회한다. */
   async getReaderIds(channelId: string, logId: string, read: boolean): Promise<string[]> {
     const rows = await this.grpc.rawQuery(
       `
@@ -50,7 +49,6 @@ export class GrpcStore implements Store {
     });
   }
 
-  /** 기준 메세지에서 떨어진 메세지 아이디를 조회한다. */
   async getNearbyLogId(
     channelId: string,
     logId: string,
@@ -74,7 +72,6 @@ export class GrpcStore implements Store {
     return found === undefined || found === null ? null : String(found);
   }
 
-  /** 저장된 메세지 내용을 복호화해 조회한다. */
   async getMessageRow(channelId: string, logId: string): Promise<MessageRow> {
     const rows = await this.grpc.rawQuery(
       `
@@ -126,7 +123,6 @@ export class GrpcStore implements Store {
     return { ...messageRow, threadId: String(row.thread_id) };
   }
 
-  /** 팀채팅에서 방장·부방장이 메세지를 가렸는지 확인한다. 가리기는 삭제 피드로 온다. */
   async isHiddenByHost(channelId: string, logId: string): Promise<boolean> {
     const rows = await this.grpc.rawQuery(
       `
@@ -143,7 +139,6 @@ export class GrpcStore implements Store {
     return JsonUtil.parseLossless<{ byHost?: boolean }>(detail).byHost === true;
   }
 
-  /** 유저가 나간 이유를 조회한다. */
   async getLeaveInfo(channelId: string, userId: string): Promise<LeaveInfo> {
     const rows = await this.grpc.rawQuery(
       `
@@ -173,7 +168,6 @@ export class GrpcStore implements Store {
     };
   }
 
-  /** 최근 메세지 아이디를 조회한다. */
   async getRecentLogIds(channelId: string, count: number): Promise<string[]> {
     const rows = await this.grpc.rawQuery(
       `
@@ -193,7 +187,6 @@ export class GrpcStore implements Store {
     return ids;
   }
 
-  /** 기간별 유저 메세지 수를 조회한다. */
   async getMessageCounts(
     channelId: string,
     startTime: number,
@@ -222,7 +215,6 @@ export class GrpcStore implements Store {
     return counts;
   }
 
-  /** 채널에 등록된 봇 아이디를 조회한다. */
   async getBotIds(channelId: string): Promise<string[]> {
     const rows = await this.grpc.rawQuery(
       `
@@ -247,7 +239,6 @@ export class GrpcStore implements Store {
     return botIds;
   }
 
-  /** 봇 정보를 조회한다. */
   async getBotRows(botIds: readonly string[]): Promise<NormalBotRow[]> {
     if (botIds.length === 0) return [];
 
@@ -281,7 +272,6 @@ export class GrpcStore implements Store {
     return bots;
   }
 
-  /** 일반채팅의 실제 채널 종류를 확인한다. */
   async getNormalRoomType(channelId: string, type: NormalChannelType): Promise<NormalChannelType> {
     if (type !== 'MultiChat') return type;
 
@@ -298,7 +288,6 @@ export class GrpcStore implements Store {
     return Number(rows[0]?.has_team_data) === 1 ? 'TeamMultiChat' : type;
   }
 
-  /** 팀채팅 방장 아이디를 조회한다. */
   async getTeamHostId(channelId: string): Promise<string | null> {
     const rows = await this.grpc.rawQuery(
       `
@@ -318,7 +307,6 @@ export class GrpcStore implements Store {
     return value ? String(value) : null;
   }
 
-  /** 팀채팅 관리자 아이디를 조회한다. */
   async getTeamModeratorIds(channelId: string): Promise<string[]> {
     const rows = await this.grpc.rawQuery(
       `
@@ -333,7 +321,6 @@ export class GrpcStore implements Store {
     return value ? String(value).split(',').filter(Boolean) : [];
   }
 
-  /** 친구 정보에서 설정한 이름을 조회한다. */
   async getFriendName(userId: string): Promise<string | null> {
     const rows = await this.grpc.rawQuery(
       `
@@ -348,7 +335,6 @@ export class GrpcStore implements Store {
     return value ? String(value) : null;
   }
 
-  /** 오픈채팅의 실제 채널 종류를 확인한다. */
   async getOpenRoomType(channelId: string, type: OpenChannelType): Promise<OpenChannelType> {
     if (type !== 'OM') return type;
 
@@ -369,7 +355,6 @@ export class GrpcStore implements Store {
     return Number(rows[0]?.is_community) === 1 ? 'COM' : type;
   }
 
-  /** 오픈채팅방 정보를 조회한다. */
   async getOpenRoomInfo(channelId: string): Promise<OpenChannelInfo | null> {
     const rows = await this.grpc.rawQuery(
       `
@@ -402,7 +387,6 @@ export class GrpcStore implements Store {
     };
   }
 
-  /** 현재 참여 여부와 관계없이 저장된 오픈채팅 유저가 속한 방 문맥을 찾는다. */
   async getOpenUserChannelId(userId: string): Promise<string | null> {
     const rows = await this.grpc.rawQuery(
       `
@@ -446,7 +430,6 @@ export class GrpcStore implements Store {
     return id;
   }
 
-  /** 오픈프로필 원본 목록을 조회한다. */
   async getOpenProfiles(): Promise<OpenProfileRow[]> {
     const rows = await this.grpc.rawQuery(
       `
@@ -471,7 +454,6 @@ export class GrpcStore implements Store {
     }));
   }
 
-  /** 오픈프로필 원본 정보를 복호화한다. */
   async readOpenProfile(profile: OpenProfileRow) {
     const [name, profileImageUrl] = await Promise.all([
       this.grpc.decrypt(String(profile.rawName ?? ''), profile.enc),

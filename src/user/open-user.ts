@@ -8,13 +8,13 @@ import { LinkMemberType, type Member, ProfileType } from '../grpc/generated/aris
 import type { OpenMemberType, OpenProfileType, OpenUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 오픈채팅방 유저입니다. */
+/** 오픈채팅방 유저 */
 export class OpenUser extends User {
-  /** 오픈채팅 프로필 종류입니다. */
+  /** 오픈채팅 프로필 종류 */
   readonly profileType: OpenProfileType;
-  /** 오픈채팅방에서의 멤버 종류입니다. */
+  /** 오픈채팅방 멤버 종류 */
   readonly memberType: OpenMemberType;
-  /** 오픈프로필 링크 ID입니다. */
+  /** 오픈프로필 링크 ID */
   readonly profileLinkId: string;
 
   constructor(

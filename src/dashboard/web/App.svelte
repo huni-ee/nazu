@@ -96,7 +96,7 @@
             <span class="profile-fallback"><Icon name="users" /></span>
           </div>
           <div class="detail-heading">
-            <!-- svelte-ignore a11y_missing_content: the controller sets the selected view title. -->
+            <!-- svelte-ignore a11y_missing_content: 선택한 화면 제목은 컨트롤러가 채운다. -->
             <h2 id="detail-title"></h2>
             <p id="detail-subtitle"></p>
           </div>

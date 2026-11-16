@@ -8,11 +8,11 @@ import type { Member } from '../grpc/generated/arisa.pb.js';
 import type { NormalMemberType, NormalUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 일반 채팅방 유저입니다. */
+/** 일반 채팅방 유저 */
 export class NormalUser extends User {
-  /** 프로필 종류입니다. 일반 채팅방에서는 항상 `default`입니다. */
+  /** 프로필 종류. 일반 채팅방은 항상 `default` */
   readonly profileType = 'default' as const;
-  /** 채팅방에서의 멤버 종류입니다. */
+  /** 채팅방 멤버 종류 */
   readonly memberType: NormalMemberType;
 
   constructor(

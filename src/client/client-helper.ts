@@ -32,12 +32,12 @@ export class ClientHelper {
     return this.readProfile();
   }
 
-  /** 채널 아이디로 채널 객체를 만든다. */
+  /** 채팅방 ID로 `Channel` 객체를 만든다. */
   async getChannel(channelId: string): Promise<Channel> {
     return this.createChannel(await this.grpc.getChannel(channelId));
   }
 
-  /** 저장된 방 문맥을 확인해 일반·오픈채팅 유저 정보를 가져온다. */
+  /** 오픈채팅 유저로 먼저 찾고, 없으면 일반 유저로 조회한다. */
   async getUser(userId: string): Promise<NormalUser | OpenUser | UserSelf> {
     try {
       return await this.getOpenUser(userId);
@@ -70,7 +70,7 @@ export class ClientHelper {
     });
   }
 
-  /** 저장된 방 ID로 유저 한 명을 직접 조회한다. */
+  /** 오픈채팅 유저가 속한 채팅방을 찾아 그 채팅방 기준으로 유저를 조회한다. */
   private async lookupOpenUser(userId: string): Promise<{ channelId: string; user: OpenUser | UserSelf }> {
     const channelId = await this.store.getOpenUserChannelId(userId);
     if (channelId === null) {
@@ -82,12 +82,12 @@ export class ClientHelper {
     return { channelId, user };
   }
 
-  /** 채널 객체를 만들지 않고 오픈채팅 유저 정보를 가져온다. */
+  /** `Channel` 객체 없이 오픈채팅 유저 정보만 가져온다. */
   async getOpenUser(userId: string): Promise<OpenUser | UserSelf> {
     return (await this.lookupOpenUser(userId)).user;
   }
 
-  /** 조회한 오픈채팅 유저 정보에 해당 방 정보를 함께 반환한다. */
+  /** 오픈채팅 유저와 그 유저가 속한 `OpenChannel`을 함께 돌려준다. */
   async getOpenUserContext(userId: string): Promise<{ channel: OpenChannel; user: OpenUser | UserSelf }> {
     const { channelId, user } = await this.lookupOpenUser(userId);
     const channel = await this.getChannel(channelId);
@@ -97,7 +97,7 @@ export class ClientHelper {
     return { channel, user };
   }
 
-  /** 서버의 채널 데이터를 알맞은 채널 객체로 바꾼다. */
+  /** 서버의 채팅방 데이터를 종류에 맞는 `Channel` 객체로 바꾼다. */
   async createChannel(data: ChannelData): Promise<Channel> {
     if (data.channelType === 'OD' || data.channelType === 'OM' || data.channelType === 'COM') {
       return OpenChannel.from(this.grpc, data, this, this.store);
@@ -125,7 +125,7 @@ export class ClientHelper {
     );
   }
 
-  /** 멤버 데이터를 채널에 맞는 유저 객체로 바꾼다. */
+  /** 멤버 데이터를 채팅방 종류에 맞는 유저 객체로 바꾼다. */
   async createUser(
     channel: Channel,
     member: Member | undefined,
@@ -169,7 +169,7 @@ export class ClientHelper {
     }
   }
 
-  /** 메세지 데이터와 유저 정보를 메세지 채팅으로 바꾼다. */
+  /** 메세지 데이터와 유저 정보로 `MessageChat`을 만든다. */
   async createMessage(data: MessageEvent, channel: Channel, user?: User | null): Promise<MessageChat> {
     const messageUser = user === undefined ? await this.createMessageUser(channel, data) : user;
     return createChat(data, messageUser, channel, this);
@@ -181,7 +181,7 @@ export class ClientHelper {
     return this.createUser(channel, data.author);
   }
 
-  /** 채널 유저 목록을 조회한다. */
+  /** 채팅방 유저 목록을 조회한다. */
   async getUsers(channel: Channel, userIds: string[]): Promise<User[]> {
     if (userIds.length === 0) return [];
 
@@ -239,13 +239,13 @@ export class ClientHelper {
     );
   }
 
-  /** 메세지를 읽은 유저 목록을 조회한다. */
+  /** 메세지를 읽은 유저 목록을 조회한다. `read`가 `false`면 읽지 않은 유저를 조회한다. */
   async getMessageReaders(channel: Channel, logId: string, read: boolean): Promise<User[]> {
     const userIds = await this.store.getReaderIds(channel.id, logId, read);
     return this.getUsers(channel, userIds);
   }
 
-  /** 기준 메세지에서 떨어진 위치의 메세지를 조회한다. */
+  /** 기준 메세지에서 `offset`만큼 떨어진 메세지를 조회한다. */
   async getNearbyMessage(channel: Channel, logId: string, offset: number): Promise<MessageChat | null> {
     if (offset === 0) return this.getMessage(channel, logId);
 

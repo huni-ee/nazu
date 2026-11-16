@@ -17,6 +17,8 @@ export {
   JoinFeedChat,
   KickFeedChat,
   LeaveFeedChat,
+  ManagerSpeakerModeFeedChat,
+  OpenChannelDeleteFeedChat,
   DemoteFeedChat,
   HandoverFeedChat,
   MemberTypeChangeFeedChat,

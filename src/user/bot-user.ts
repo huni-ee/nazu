@@ -8,11 +8,11 @@ import type { Member } from '../grpc/generated/arisa.pb.js';
 import type { BotUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 채팅방에 추가된 챗봇입니다. */
+/** 채팅방에 추가된 챗봇 */
 export class BotUser extends User {
-  /** 멤버 종류입니다. 항상 `bot`입니다. */
+  /** 멤버 종류. 항상 `bot` */
   readonly memberType = 'bot' as const;
-  /** 프로필 종류입니다. 항상 `default`입니다. */
+  /** 프로필 종류. 항상 `default` */
   readonly profileType = 'default' as const;
 
   constructor(id: string, name: string, profileImageUrl: string | null) {

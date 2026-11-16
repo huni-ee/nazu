@@ -15,9 +15,9 @@ import { NormalUser } from '../user/normal-user.js';
 import { UserSelf } from '../user/user-self.js';
 import { Channel } from './channel.js';
 
-/** 일반 채팅방입니다. 나와의 채팅에서는 `name`이 내 프로필 닉네임입니다. */
+/** 일반 채팅방. 나와의 채팅은 `name`에 내 프로필 닉네임이 들어 있습니다. */
 export class NormalChannel extends Channel {
-  /** 일반 채팅방 종류입니다. */
+  /** 일반 채팅방 종류 */
   declare readonly type: NormalChannelType;
 
   /** @internal 이벤트나 클라이언트가 만든 객체를 쓰세요. */
@@ -43,11 +43,11 @@ export class NormalChannel extends Channel {
   }
 
   /**
-   * @internal 서버의 멤버 데이터로 유저를 만듭니다. 만든 유저의 `customName`은 친구 정보에서 지정한 이름입니다.
+   * @internal 서버의 멤버 데이터로 유저를 만듭니다. `customName`에는 친구 정보에서 지정한 이름을 넣습니다.
    *
-   * @param member 서버의 멤버 데이터입니다.
-   * @param memberType 채팅방에서의 멤버 종류입니다.
-   * @param botName 클라이언트에 설정한 봇 이름입니다.
+   * @param member 서버의 멤버 데이터
+   * @param memberType 채팅방 멤버 종류
+   * @param botName 클라이언트에 설정한 봇 이름
    */
   async createUser(
     member: Member,

@@ -15,7 +15,7 @@ type ProfileChange = (
 
 type ProfileError = (error: unknown) => Promise<void>;
 
-/** 오픈프로필 감시 */
+/** 오픈프로필 이름·이미지 변경 감시 */
 export class OpenProfileWatcher {
   private profiles = new Map<string, OpenProfileRow>();
   private timer: NodeJS.Timeout | undefined;

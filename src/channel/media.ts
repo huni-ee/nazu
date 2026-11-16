@@ -11,7 +11,7 @@ import { lookup } from 'mime-types';
 
 import type { MediaFile, MediaInput } from '../types/channel.js';
 
-/** 미디어 파일을 준비한다. */
+/** 파일 경로, URL, 바이트를 읽어 `MediaFile`로 만든다. */
 export async function prepareMedia(value: MediaInput): Promise<MediaFile> {
   let data: Uint8Array;
   let name: string | undefined;

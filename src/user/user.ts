@@ -12,26 +12,26 @@ import type { FeedEvent, FeedUser, Member } from '../grpc/generated/arisa.pb.js'
 import type { UserRaw } from '../types/user.js';
 
 /**
- * 유저입니다. 채팅방 종류에 따라 {@link NormalUser}, {@link OpenUser}, {@link BotUser}, {@link UserSelf}로 받습니다.
+ * 유저. 채팅방 종류에 따라 {@link NormalUser}, {@link OpenUser}, {@link BotUser}, {@link UserSelf}로 받습니다.
  *
- * 입장·퇴장 피드처럼 ID와 닉네임만 아는 유저는 기본 `User`로 받으며, 역할 정보가 없어서 `isHost()` 같은 메서드가 `false`입니다.
+ * 입장·퇴장 피드처럼 ID와 닉네임만 아는 유저는 기본 `User`로 받으며, 역할 정보가 없어 `isHost()` 같은 메서드가 `false`를 돌려줍니다.
  */
 export class User {
-  /** 유저 ID입니다. 큰 정수라서 문자열로 다룹니다. */
+  /** 유저 ID. 큰 정수라서 문자열로 다룹니다. */
   readonly id: string;
-  /** 유저 이름입니다. */
+  /** 유저 이름 */
   readonly name: string;
-  /** 프로필 이미지 주소입니다. 없으면 `null`입니다. */
+  /** 프로필 이미지 주소. 없으면 `null` */
   readonly profileImageUrl: string | null;
 
-  /** 친구 정보에서 내가 지정한 이름입니다. 없으면 `null`입니다. */
+  /** 친구 정보에서 내가 지정한 이름. 없으면 `null` */
   readonly customName: string | null;
 
   /**
-   * @param id 유저 ID입니다.
-   * @param name 유저 이름입니다.
-   * @param profileImageUrl 프로필 이미지 주소입니다.
-   * @param customName 친구 정보에서 지정한 이름입니다.
+   * @param id 유저 ID
+   * @param name 유저 이름
+   * @param profileImageUrl 프로필 이미지 주소
+   * @param customName 친구 정보에서 지정한 이름
    */
   constructor(id: string, name: string, profileImageUrl: string | null = null, customName: string | null = null) {
     this.id = id;
@@ -45,7 +45,7 @@ export class User {
     return new User(user.id, user.nickname);
   }
 
-  /** 유저 원본 데이터입니다. 하위 클래스는 그 종류에 맞는 데이터를 돌려줍니다. */
+  /** 유저 원본 데이터. 하위 클래스는 그 종류에 맞는 데이터를 돌려줍니다. */
   get raw(): UserRaw {
     return {
       id: this.id,
@@ -56,38 +56,38 @@ export class User {
     };
   }
 
-  /** 내 계정이면 `true`입니다. `true`이면 타입이 {@link UserSelf}로 좁혀집니다. */
+  /** 내 계정 여부 */
   isMine(): this is UserSelf {
     return false;
   }
 
-  /** 일반 채팅방 유저이거나 일반 채팅방의 내 계정이면 `true`입니다. */
+  /** 일반 채팅방 유저(내 계정 포함) 여부 */
   isNormalUser(): this is NormalUser | UserSelf {
     return false;
   }
 
-  /** 오픈채팅방 유저이거나 오픈채팅방의 내 계정이면 `true`입니다. */
+  /** 오픈채팅방 유저(내 계정 포함) 여부 */
   isOpenUser(): this is OpenUser | UserSelf {
     return false;
   }
 
-  /** 채팅방에 추가된 챗봇이면 `true`입니다. */
+  /** 채팅방에 추가된 챗봇 여부 */
   isBotUser(): this is BotUser {
     return false;
   }
 
-  /** 방장이면 `true`입니다. 역할 정보가 없는 기본 `User`는 `false`입니다. */
+  /** 방장 여부. 역할 정보가 없는 기본 `User`는 `false` */
   isHost(): boolean {
     return false;
   }
 
-  /** 부방장이면 `true`입니다. 역할 정보가 없는 기본 `User`는 `false`입니다. */
+  /** 부방장 여부. 역할 정보가 없는 기본 `User`는 `false` */
   isModerator(): boolean {
     return false;
   }
 }
 
-/** 피드에서 유저를 찾는다. */
+/** 피드 이벤트에서 유저 ID로 멤버 데이터를 찾는다. */
 export function findFeedMember(data: FeedEvent, userId: string): Member | undefined {
   if (data.author?.id === userId) return data.author;
 
