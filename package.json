@@ -58,7 +58,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@iconify-json/fa6-solid": "1.2.4",
-    "@iconify-json/lucide": "1.2.154",
+    "@iconify-json/lucide": "1.2.156",
     "@iconify-json/mage": "1.2.4",
     "@iconify-json/material-symbols": "1.2.99",
     "@iconify-json/ri": "1.2.10",
