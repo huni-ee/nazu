@@ -1,7 +1,7 @@
 {
   "name": "@huni_ee/nazu",
   "version": "0.1.2",
-  "description": "Arisa 기반의 카카오톡 봇을 만드는 Node.js 라이브러리",
+  "description": "Arisa 기반 카카오톡 봇 Node.js 라이브러리",
   "keywords": [
     "arisa",
     "kakao",
