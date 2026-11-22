@@ -20,6 +20,7 @@ import { ClientHelper } from './client-helper.js';
 import { EventHandler } from './event-handler.js';
 import { Listeners, type ClientListenerMap } from './listeners.js';
 import { OpenProfileWatcher } from './open-profile-watcher.js';
+import { checkForUpdate } from './update-check.js';
 import { isLongId } from '../utils/id/index.js';
 import { KakaoLink, type KakaoLinkOptions } from '../kakaolink/index.js';
 
@@ -233,11 +234,14 @@ export class ArisaClient {
    * 연결이 끊기면 3초마다 다시 연결하고, `SIGINT`나 `SIGTERM`을 받으면 종료합니다.
    * 이벤트를 처음부터 받으려면 호출하기 전에 리스너를 등록하세요.
    *
+   * 처음 시작할 때 nazu 새 버전이 있는지 확인해 터미널에 알려 줍니다.
+   *
    * @returns 이벤트 수신이 끝나면 완료됩니다.
    */
   start(): Promise<void> {
     if (this.startRequest !== null) return this.startRequest.promise;
     if (this.running && !this.stopped) return this.runCompletion ?? Promise.resolve();
+    checkForUpdate();
     const request = { promise: Promise.resolve() };
     this.startRequest = request;
     request.promise = (async () => {
