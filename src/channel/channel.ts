@@ -30,22 +30,34 @@ import { prepareMedia } from './media.js';
  * `Promise`를 돌려주는 속성은 `await`로 읽습니다.
  */
 export class Channel {
-  /** 채팅방 ID */
+  /**
+   * 채팅방 ID
+   */
   readonly id: string;
 
-  /** 채팅방 종류 ({@link NormalChannelType} 또는 {@link OpenChannelType}) */
+  /**
+   * 채팅방 종류 ({@link NormalChannelType} 또는 {@link OpenChannelType})
+   */
   readonly type: string;
 
-  /** 채팅방 이름 */
+  /**
+   * 채팅방 이름
+   */
   readonly name: string | null;
 
-  /** 채팅방 이름 설정에서 내가 지정한 이름 */
+  /**
+   * 채팅방 이름 설정에서 내가 지정한 이름
+   */
   readonly privateName: string | null;
 
-  /** 오픈채팅방 정보. 일반 채팅방이면 `null` */
+  /**
+   * 오픈채팅방 정보. 일반 채팅방이면 `null`
+   */
   readonly openChannel: OpenChannelInfo | null;
 
-  /** 채팅방 원본 데이터 */
+  /**
+   * 채팅방 원본 데이터
+   */
   readonly raw: ChannelRaw;
   /** @internal */
   protected readonly grpc: ArisaGrpc;
@@ -53,7 +65,9 @@ export class Channel {
   protected readonly store: Store;
   private readonly helper: ClientHelper | undefined;
 
-  /** @internal 이벤트나 클라이언트가 만든 객체를 쓰세요. */
+  /**
+   * @internal 이벤트나 클라이언트가 만든 객체를 쓰세요.
+   */
   constructor(
     id: string,
     type: string,
@@ -113,12 +127,16 @@ export class Channel {
     );
   }
 
-  /** 채팅방을 읽음 처리합니다. */
+  /**
+   * 채팅방을 읽음 처리합니다.
+   */
   async read(): Promise<void> {
     await this.grpc.markRead(this.id);
   }
 
-  /** 채팅방에 입장합니다. */
+  /**
+   * 채팅방에 입장합니다.
+   */
   async enter(): Promise<void> {
     await this.grpc.enterChannel(this.id);
   }
@@ -200,32 +218,44 @@ export class Channel {
     return result;
   }
 
-  /** 지금 채팅방에 있는 멤버 ID 목록 */
+  /**
+   * 지금 채팅방에 있는 멤버 ID 목록
+   */
   get memberIds(): Promise<string[]> {
     return this.loadMemberIds();
   }
 
-  /** 지금 채팅방에 있는 멤버 목록 */
+  /**
+   * 지금 채팅방에 있는 멤버 목록
+   */
   get members(): Promise<User[]> {
     return this.loadMembers();
   }
 
-  /** 방장. 방장이 없는 채팅방이거나 찾지 못하면 `null` */
+  /**
+   * 방장. 방장이 없는 채팅방이거나 찾지 못하면 `null`
+   */
   get host(): Promise<User | null> {
     return this.loadHost();
   }
 
-  /** 부방장 목록. 부방장이 없는 채팅방이면 빈 배열 */
+  /**
+   * 부방장 목록. 부방장이 없는 채팅방이면 빈 배열
+   */
   get moderators(): Promise<User[]> {
     return this.loadModerators();
   }
 
-  /** 채팅방에 추가된 챗봇 목록 */
+  /**
+   * 채팅방에 추가된 챗봇 목록
+   */
   get botUsers(): Promise<BotUser[]> {
     return this.loadBotUsers();
   }
 
-  /** 일반 채팅방 여부 */
+  /**
+   * 일반 채팅방 여부
+   */
   isNormalChannel(): this is NormalChannel {
     return (
       this.isMemoChannel() ||
@@ -236,47 +266,65 @@ export class Channel {
     );
   }
 
-  /** 나와의 채팅(`MemoChat`) 여부 */
+  /**
+   * 나와의 채팅(`MemoChat`) 여부
+   */
   isMemoChannel(): boolean {
     return this.type === 'MemoChat';
   }
 
-  /** 일반 1:1 채팅(`DirectChat`) 여부 */
+  /**
+   * 일반 1:1 채팅(`DirectChat`) 여부
+   */
   isDirectChannel(): boolean {
     return this.type === 'DirectChat';
   }
 
-  /** 일반 그룹 채팅(`MultiChat`) 여부 */
+  /**
+   * 일반 그룹 채팅(`MultiChat`) 여부
+   */
   isMultiChannel(): boolean {
     return this.type === 'MultiChat';
   }
 
-  /** 팀채팅(`TeamMultiChat`) 여부 */
+  /**
+   * 팀채팅(`TeamMultiChat`) 여부
+   */
   isTeamMultiChannel(): boolean {
     return this.type === 'TeamMultiChat';
   }
 
-  /** 카카오톡 채널(`PlusChat`) 여부 */
+  /**
+   * 카카오톡 채널(`PlusChat`) 여부
+   */
   isPlusChannel(): boolean {
     return this.type === 'PlusChat';
   }
 
-  /** 오픈채팅방 여부 */
+  /**
+   * 오픈채팅방 여부
+   */
   isOpenChannel(): this is OpenChannel {
     return this.isOpenDirectChannel() || this.isOpenMultiChannel() || this.isCommunityOpenMultiChannel();
   }
 
-  /** 1:1 오픈채팅(`OD`) 여부 */
+  /**
+   * 1:1 오픈채팅(`OD`) 여부
+   */
   isOpenDirectChannel(): boolean {
     return this.type === 'OD';
   }
 
-  /** 그룹 오픈채팅(`OM`) 여부 */
+  /**
+   * 그룹 오픈채팅(`OM`) 여부
+   */
   isOpenMultiChannel(): boolean {
     return this.type === 'OM';
   }
 
-  /** 커뮤니티 오픈 그룹 채팅(`COM`) 여부 */
+  /**
+   * 커뮤니티 오픈 그룹 채팅(`COM`) 여부
+   */
   isCommunityOpenMultiChannel(): boolean {
     return this.type === 'COM';
   }

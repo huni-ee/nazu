@@ -27,13 +27,13 @@
         onclick={() => actions.selectRoleView(kind)}
       >
         <Avatar fallback={kind === 'admin' ? 'users' : 'user'} />
-        <span class="channel-text"
-          ><span class="channel-line"
-            ><span class="channel-name">{kind === 'admin' ? '관리자' : '밴 유저'}</span><span class="channel-count"
-              >{state.roles[kind].size}</span
-            ></span
-          ><span class="channel-description">모든 채팅방에 적용</span></span
-        >
+        <span class="channel-text">
+          <span class="channel-line">
+            <span class="channel-name">{kind === 'admin' ? '관리자' : '밴 유저'}</span><span class="channel-count">
+              {state.roles[kind].size}
+            </span>
+          </span><span class="channel-description">모든 채팅방에 적용</span>
+        </span>
       </button>
     </li>
   {/each}
@@ -52,24 +52,25 @@
     <li>
       <button
         type="button"
-        class="channel-item room-channel-item open-group-item"
+        class="channel-item open-group-item"
         class:is-selected={selected}
         aria-current={selected ? 'true' : 'false'}
         data-open-group-key={key}
         onclick={() => actions.selectOpenGroup(key)}
       >
         <Avatar url={entry.profileImageUrl} />
-        <span class="channel-text"
-          ><span class="channel-line"
-            ><span class="channel-name"
-              >{entry.name || (entry.groupKind === 'profile' ? '이름 없는 오픈프로필' : '이름 없는 1:1 오픈채팅')}</span
-            ></span
-          ><span class="channel-description">{entry.groupKind === 'profile' ? '내 오픈프로필' : '내 1:1 오픈채팅'}</span
-          ></span
-        >
-        <span class="open-group-count" aria-label={`${helpers.ownGroupRooms(entry).length}개 채팅방`}
-          >{helpers.ownGroupRooms(entry).length}</span
-        >
+        <span class="channel-text">
+          <span class="channel-line">
+            <span class="channel-name">
+              {entry.name || (entry.groupKind === 'profile' ? '이름 없는 오픈프로필' : '이름 없는 1:1 오픈채팅')}
+            </span>
+          </span><span class="channel-description">
+            {entry.groupKind === 'profile' ? '내 오픈프로필' : '내 1:1 오픈채팅'}
+          </span>
+        </span>
+        <span class="open-group-count" aria-label={`${helpers.ownGroupRooms(entry).length}개 채팅방`}>
+          {helpers.ownGroupRooms(entry).length}
+        </span>
       </button>
     </li>
   {/each}
@@ -80,24 +81,26 @@
     <li>
       <button
         type="button"
-        class="channel-item room-channel-item"
+        class="channel-item"
         class:is-selected={selected}
         aria-current={selected ? 'true' : 'false'}
         onclick={() => actions.selectChannel(channel.id)}
       >
         <Avatar url={channel.profileImageUrl} fallback={channelAvatarFallback(type)} />
-        <span class="channel-text"
-          ><span class="channel-line"
-            ><span class="channel-name">{channel.name}</span>{#if count !== undefined && count !== null}<span
+        <span class="channel-text">
+          <span class="channel-line">
+            <span class="channel-name">{channel.name}</span>{#if count !== undefined && count !== null}<span
                 class="channel-count"
-                aria-label={`멤버 ${count}명`}>{count}</span
-              >{/if}</span
-          ><span class="channel-description"
-            >{helpers.channelTypeLabels.get(type) ??
+                aria-label={`멤버 ${count}명`}
+              >
+                {count}
+              </span>{/if}
+          </span><span class="channel-description">
+            {helpers.channelTypeLabels.get(type) ??
               helpers.channelTypeLabels.get(type.toUpperCase()) ??
-              (type || '유형 미확인')}</span
-          ></span
-        >
+              (type || '유형 미확인')}
+          </span>
+        </span>
       </button>
     </li>
   {/each}

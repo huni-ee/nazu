@@ -31,8 +31,10 @@
     type="button"
     class="icon-button room-list-back open-profile-back"
     aria-label="오픈채팅방 목록으로 돌아가기"
-    onclick={actions.goBack}><Icon name="chevron-left" /></button
+    onclick={actions.goBack}
   >
+    <Icon name="chevron-left" />
+  </button>
   <div class="open-profile-layout">
     <section class="open-profile-card" aria-labelledby="open-profile-title">
       <div class="open-profile-summary">
@@ -60,11 +62,12 @@
                 group.url.trim(),
                 isProfile ? '오픈프로필 링크를 복사했습니다.' : '오픈채팅 링크를 복사했습니다.'
               )}
-            ><span class="copy-feedback-icons" aria-hidden="true">
+          >
+            <span class="copy-feedback-icons" aria-hidden="true">
               <Icon name="copy" className="copy-feedback-copy" />
               <Icon name="check" className="copy-feedback-check" />
-            </span></button
-          >
+            </span>
+          </button>
         </div>
       {/if}
     </section>

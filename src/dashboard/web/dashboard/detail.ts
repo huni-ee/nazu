@@ -14,6 +14,7 @@ import { arrangeMasonryCards } from '../utils/masonry.js';
 import { ui } from './ui.js';
 import type { Friend } from './types.js';
 import { state } from './state.js';
+import { saveDashboardView } from './session.js';
 import { showToast } from './toast.js';
 import { roomViews, friendViews, showImageViewer, showVideoViewer } from './views.js';
 import { emptyState, loadingState } from './placeholders.js';
@@ -124,6 +125,7 @@ export function renderDetail() {
   ) {
     state.selectedMemberId = null;
   }
+  saveDashboardView(state);
   if (state.tab !== 'home' && homeController) {
     homeController.dispose();
     homeController = null;

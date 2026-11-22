@@ -8,7 +8,9 @@ import type { Credential } from '../../api/types.js';
 import { HttpError } from './http.js';
 import type { DashboardClient } from './types.js';
 
-/** 카카오 API에 쓸 인증 정보를 Arisa에서 받아 온다. */
+/**
+ * 카카오 API에 쓸 인증 정보를 Arisa에서 받아 온다.
+ */
 export async function readCredential(client: DashboardClient): Promise<Credential> {
   let auth: Credential;
   try {

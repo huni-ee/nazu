@@ -15,12 +15,18 @@ import { NormalUser } from '../user/normal-user.js';
 import { UserSelf } from '../user/user-self.js';
 import { Channel } from './channel.js';
 
-/** 일반 채팅방. 나와의 채팅은 `name`에 내 프로필 닉네임이 들어 있습니다. */
+/**
+ * 일반 채팅방. 나와의 채팅은 `name`에 내 프로필 닉네임이 들어 있습니다.
+ */
 export class NormalChannel extends Channel {
-  /** 일반 채팅방 종류 */
+  /**
+   * 일반 채팅방 종류
+   */
   declare readonly type: NormalChannelType;
 
-  /** @internal 이벤트나 클라이언트가 만든 객체를 쓰세요. */
+  /**
+   * @internal 이벤트나 클라이언트가 만든 객체를 쓰세요.
+   */
   constructor(
     id: string,
     type: NormalChannelType,

@@ -46,7 +46,9 @@ function invalidSql(): never {
   throw new HttpError(400, 'SELECT 또는 WITH로 시작하는 조회 SQL 한 개만 실행할 수 있습니다.');
 }
 
-/** 문자열·식별자·주석을 구분해 SQLite 문장 경계와 변경 명령을 확인한다. */
+/**
+ * 문자열·식별자·주석을 구분해 SQLite 문장 경계와 변경 명령을 확인한다.
+ */
 function sqlTokens(sql: string): SqlToken[] {
   const tokens: SqlToken[] = [];
   let index = 0;
@@ -119,7 +121,9 @@ function sqlTokens(sql: string): SqlToken[] {
   return tokens;
 }
 
-/** 홈 SQL은 Arisa의 RawQuery로 실행하므로 조회 문장만 허용한다. */
+/**
+ * 홈 SQL은 Arisa의 RawQuery로 실행하므로 조회 문장만 허용한다.
+ */
 export function validateHomeSql(value: unknown): string {
   if (typeof value !== 'string' || !value.trim() || value.length > 3000 || value.includes('\0')) {
     throw new HttpError(400, 'SQL을 1~3000자로 입력해 주세요.');

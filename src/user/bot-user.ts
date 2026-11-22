@@ -8,11 +8,17 @@ import type { Member } from '../grpc/generated/arisa.pb.js';
 import type { BotUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 채팅방에 추가된 챗봇 */
+/**
+ * 채팅방에 추가된 챗봇
+ */
 export class BotUser extends User {
-  /** 멤버 종류. 항상 `bot` */
+  /**
+   * 멤버 종류. 항상 `bot`
+   */
   readonly memberType = 'bot' as const;
-  /** 프로필 종류. 항상 `default` */
+  /**
+   * 프로필 종류. 항상 `default`
+   */
   readonly profileType = 'default' as const;
 
   constructor(id: string, name: string, profileImageUrl: string | null) {
@@ -31,7 +37,9 @@ export class BotUser extends User {
     };
   }
 
-  /** @internal 서버의 멤버 데이터로 챗봇 유저를 만듭니다. */
+  /**
+   * @internal 서버의 멤버 데이터로 챗봇 유저를 만듭니다.
+   */
   static from(member: Member): BotUser {
     return new BotUser(member.id, member.nickname, member.profileImageUrl ?? null);
   }

@@ -7,7 +7,9 @@
 import type { Attachment, MapAttachment } from '../types/chat.js';
 import { JsonUtil } from '../utils/json/index.js';
 
-/** 첨부 데이터의 ID를 문자열로 바꾼다. */
+/**
+ * 첨부 데이터의 ID를 문자열로 바꾼다.
+ */
 function normalizeAttachmentIds(value: unknown): void {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return;
 
@@ -27,7 +29,9 @@ function normalizeAttachmentIds(value: unknown): void {
   normalizeAttachmentIds(attachment.attach_content);
 }
 
-/** 답장의 `src_mentions`를 유저 ID 목록으로 바꾼다. 원본은 `mentions`처럼 `{ user_id, at, len }` 객체 배열이다. */
+/**
+ * 답장의 `src_mentions`를 유저 ID 목록으로 바꾼다. 원본은 `mentions`처럼 `{ user_id, at, len }` 객체 배열이다.
+ */
 function collectSourceMentionIds(value: unknown): void {
   if (!isRecord(value) || !Array.isArray(value.src_mentions)) return;
 
@@ -50,13 +54,17 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-/** 템플릿 항목의 `WEBPC` 링크를 꺼낸다. `kakaomap://` 링크는 `URL`이 경로를 `host`로 읽어서 쓰지 않는다. */
+/**
+ * 템플릿 항목의 `WEBPC` 링크를 꺼낸다. `kakaomap://` 링크는 `URL`이 경로를 `host`로 읽어서 쓰지 않는다.
+ */
 function webLink(item: unknown): string | null {
   if (!isRecord(item) || !isRecord(item.link)) return null;
   return typeof item.link.WEBPC === 'string' ? item.link.WEBPC : null;
 }
 
-/** 링크의 `key` 값에서 `위도,경도`를 꺼낸다. */
+/**
+ * 링크의 `key` 값에서 `위도,경도`를 꺼낸다.
+ */
 function findPoint(links: readonly URL[], key: string): Pick<MapAttachment, 'lat' | 'lng'> | null {
   for (const link of links) {
     const match = /^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/.exec(link.searchParams.get(key) ?? '');
@@ -69,7 +77,9 @@ function mapText(item: unknown): string | null {
   return isRecord(item) && typeof item.txt === 'string' ? item.txt : null;
 }
 
-/** 첨부 데이터에서 지도 필드를 꺼낸다. 카카오맵이 아니거나 좌표나 링크가 없으면 `null`이다. */
+/**
+ * 첨부 데이터에서 지도 필드를 꺼낸다. 카카오맵이 아니거나 좌표나 링크가 없으면 `null`이다.
+ */
 export function parseMapFields(attachment: Attachment): MapAttachment | null {
   const content = attachment.C;
   const properties = attachment.P;

@@ -10,13 +10,21 @@ import type { NormalMemberType, OpenMemberType, OpenProfileType, UserSelfRaw } f
 import { OpenUser } from './open-user.js';
 import { User } from './user.js';
 
-/** 내 계정. 일반 채팅방과 오픈채팅방 모두 이 클래스로 받습니다. */
+/**
+ * 내 계정. 일반 채팅방과 오픈채팅방 모두 이 클래스로 받습니다.
+ */
 export class UserSelf extends User {
-  /** 오픈채팅 프로필 종류. 일반 채팅방이면 `default` */
+  /**
+   * 오픈채팅 프로필 종류. 일반 채팅방이면 `default`
+   */
   readonly profileType: OpenProfileType;
-  /** 채팅방 멤버 종류 */
+  /**
+   * 채팅방 멤버 종류
+   */
   readonly memberType: OpenMemberType;
-  /** 오픈프로필 링크 ID. 일반 채팅방이면 `null` */
+  /**
+   * 오픈프로필 링크 ID. 일반 채팅방이면 `null`
+   */
   readonly profileLinkId: string | null;
 
   constructor(
@@ -58,7 +66,9 @@ export class UserSelf extends User {
         };
   }
 
-  /** @internal 일반 채팅방 멤버 데이터로 내 계정을 만듭니다. 이름은 `botName`, 저장된 내 프로필 닉네임, 멤버 닉네임 순서로 씁니다. */
+  /**
+   * @internal 일반 채팅방 멤버 데이터로 내 계정을 만듭니다. 이름은 `botName`, 저장된 내 프로필 닉네임, 멤버 닉네임 순서로 씁니다.
+   */
   static fromNormal(
     member: Member,
     botName: string | null = null,
@@ -77,7 +87,9 @@ export class UserSelf extends User {
     );
   }
 
-  /** @internal 오픈채팅방 멤버 데이터로 내 계정을 만듭니다. `botName`이 있으면 그 이름을 씁니다. */
+  /**
+   * @internal 오픈채팅방 멤버 데이터로 내 계정을 만듭니다. `botName`이 있으면 그 이름을 씁니다.
+   */
   static fromOpen(member: Member, botName: string | null = null): UserSelf {
     const user = OpenUser.from(member);
     return new UserSelf(

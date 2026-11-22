@@ -205,8 +205,10 @@
           aria-label="연결 다시 확인"
           title="연결 다시 확인"
           disabled={busy || !available}
-          on:click={check}><Icon name="refresh" /></button
+          on:click={check}
         >
+          <Icon name="refresh" />
+        </button>
       </div>
       <p class="home-connection-target" hidden={!result?.target}>{result?.target || ''}</p>
       <p class="home-connection-meta" hidden={!meta}>{meta}</p>

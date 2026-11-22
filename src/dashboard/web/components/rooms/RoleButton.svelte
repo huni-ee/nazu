@@ -21,5 +21,7 @@
   aria-label={`${member.name} ${label} ${enabled ? '해제' : '설정'}`}
   aria-pressed={enabled}
   disabled={state.pending.has(`${kind}:${member.id}`)}
-  onclick={() => actions.changeRole(member, kind, !enabled)}>{label}</button
+  onclick={() => actions.changeRole(member, kind, !enabled)}
 >
+  {label}
+</button>

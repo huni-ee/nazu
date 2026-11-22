@@ -76,9 +76,15 @@
 {/snippet}
 
 {#if clickable}
-  <button type="button" class="friend-image-button friend-detail-avatar" aria-label={label} title={label} onclick={show}
-    >{@render preview()}</button
+  <button
+    type="button"
+    class="friend-image-button friend-detail-avatar"
+    aria-label={label}
+    title={label}
+    onclick={show}
   >
+    {@render preview()}
+  </button>
 {:else}
   {@render preview()}
 {/if}

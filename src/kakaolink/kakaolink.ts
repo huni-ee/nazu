@@ -16,14 +16,16 @@ import { wrapper } from 'axios-cookiejar-support';
 import { Mutex } from 'async-mutex';
 import { CookieJar } from 'tough-cookie';
 
-const KAKAOTALK_VERSION = '26.8.1';
+const KAKAOTALK_VERSION = '26.10.1';
 const ANDROID_SDK_VER = 34;
 const ANDROID_WEBVIEW_UA =
   'Mozilla/5.0 (Linux; Android 14; SM-S908N Build/UP1A.231005.007; wv) ' +
   'AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 ' +
   'Chrome/126.0.6478.134 Mobile Safari/537.36';
 
-/** 카카오링크 오류의 공통 부모 */
+/**
+ * 카카오링크 오류의 공통 부모
+ */
 export class KakaoLinkException extends Error {
   constructor(message = '') {
     super(message);
@@ -31,39 +33,63 @@ export class KakaoLinkException extends Error {
   }
 }
 
-/** 조건에 맞는 수신자를 찾지 못하면 발생합니다. */
+/**
+ * 조건에 맞는 수신자를 찾지 못하면 발생합니다.
+ */
 export class KakaoLinkReceiverNotFoundException extends KakaoLinkException {}
 
-/** 로그인에 실패했거나 `init()` 전에 보내면 발생합니다. */
+/**
+ * 로그인에 실패했거나 `init()` 전에 보내면 발생합니다.
+ */
 export class KakaoLinkLoginException extends KakaoLinkException {}
 
-/** 로그인 중 추가 인증을 처리하지 못하면 발생합니다. */
+/**
+ * 로그인 중 추가 인증을 처리하지 못하면 발생합니다.
+ */
 export class KakaoLink2FAException extends KakaoLinkException {}
 
-/** 메세지 전송에 실패하면 발생합니다. */
+/**
+ * 메세지 전송에 실패하면 발생합니다.
+ */
 export class KakaoLinkSendException extends KakaoLinkException {}
 
-/** 수신자를 찾을 범위. `ALL`은 친구와 채팅방 모두, `FRIENDS`는 친구만, `CHATROOMS`는 채팅방만 찾습니다. */
+/**
+ * 수신자를 찾을 범위. `ALL`은 친구와 채팅방 모두, `FRIENDS`는 친구만, `CHATROOMS`는 채팅방만 찾습니다.
+ */
 export type SearchFrom = 'ALL' | 'FRIENDS' | 'CHATROOMS';
 
-/** 찾을 채팅방 종류. `OpenMultiChat`은 그룹 오픈채팅, `MultiChat`은 일반 그룹 채팅, `DirectChat`은 1:1 채팅 */
+/**
+ * 찾을 채팅방 종류. `OpenMultiChat`은 그룹 오픈채팅, `MultiChat`은 일반 그룹 채팅, `DirectChat`은 1:1 채팅
+ */
 export type SearchRoomType = 'ALL' | 'OpenMultiChat' | 'MultiChat' | 'DirectChat';
 
-/** {@link KakaoLink}를 만들 때 넘기는 설정 */
+/**
+ * {@link KakaoLink}를 만들 때 넘기는 설정
+ */
 export interface KakaoLinkOptions {
-  /** Kakao Developers에서 발급받은 JavaScript 키 */
+  /**
+   * Kakao Developers에서 발급받은 JavaScript 키
+   */
   readonly appKey: string;
 
-  /** Kakao Developers에 등록한 웹 플랫폼 도메인 */
+  /**
+   * Kakao Developers에 등록한 웹 플랫폼 도메인
+   */
   readonly origin: string;
 }
 
-/** `send()`에 넘기는 전송 옵션 */
+/**
+ * `send()`에 넘기는 전송 옵션
+ */
 export interface KakaoLinkSendOptions {
-  /** 받을 채팅방이나 친구의 이름 */
+  /**
+   * 받을 채팅방이나 친구의 이름
+   */
   receiverName: string;
 
-  /** 메세지 템플릿 ID */
+  /**
+   * 메세지 템플릿 ID
+   */
   templateId: number;
 
   /**
@@ -128,7 +154,9 @@ export class KakaoLink {
   private readonly sendLock = new Mutex();
   private initialization: Promise<void> | null = null;
 
-  /** @internal `client.kakaoLink()`로 만드세요. */
+  /**
+   * @internal `client.kakaoLink()`로 만드세요.
+   */
   constructor(arisa: ArisaAuthorizationSource, options: KakaoLinkOptions) {
     this.arisa = arisa;
     this.appKey = options.appKey;

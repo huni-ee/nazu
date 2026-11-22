@@ -49,13 +49,19 @@ export interface MessageChatInput {
  * 답장은 `chat instanceof ReplyChat`으로 확인합니다.
  */
 export class MessageChat extends Chat {
-  /** 메세지 로그 ID */
+  /**
+   * 메세지 로그 ID
+   */
   readonly id: string;
 
-  /** 스레드 ID. 스레드에 속하지 않으면 `null` */
+  /**
+   * 스레드 ID. 스레드에 속하지 않으면 `null`
+   */
   readonly threadId: string | null;
 
-  /** 받은 메세지 타입 번호. 삭제된 메세지는 삭제 표시(`0x4000`)가 더해져 있습니다. */
+  /**
+   * 받은 메세지 타입 번호. 삭제된 메세지는 삭제 표시(`0x4000`)가 더해져 있습니다.
+   */
   readonly type: number;
 
   /**
@@ -66,13 +72,19 @@ export class MessageChat extends Chat {
    */
   readonly originType: number;
 
-  /** 메세지 내용 */
+  /**
+   * 메세지 내용
+   */
   readonly text: string;
 
-  /** 첨부 데이터. 첨부가 없으면 빈 객체 */
+  /**
+   * 첨부 데이터. 첨부가 없으면 빈 객체
+   */
   readonly attachment: Attachment;
 
-  /** 메세지 원본 데이터 */
+  /**
+   * 메세지 원본 데이터
+   */
   readonly raw: MessageChatRaw;
 
   /** @internal */
@@ -109,24 +121,32 @@ export class MessageChat extends Chat {
     return true;
   }
 
-  /** 첨부 데이터를 원하는 타입으로 가져옵니다. 데이터가 그 타입과 맞는지는 확인하지 않습니다. */
+  /**
+   * 첨부 데이터를 원하는 타입으로 가져옵니다. 데이터가 그 타입과 맞는지는 확인하지 않습니다.
+   */
   getAttachment<T extends Attachment = Attachment>(): Partial<T> {
     return this.attachment as Partial<T>;
   }
 
-  /** `text`에서 첫 번째 띄어쓰기 앞부분. 띄어쓰기가 없으면 메세지 전체 */
+  /**
+   * `text`에서 첫 번째 띄어쓰기 앞부분. 띄어쓰기가 없으면 메세지 전체
+   */
   get command(): string {
     const index = this.text.indexOf(' ');
     return index === -1 ? this.text : this.text.slice(0, index);
   }
 
-  /** `text`에서 첫 번째 띄어쓰기 뒤의 나머지. 띄어쓰기가 없으면 빈 문자열 */
+  /**
+   * `text`에서 첫 번째 띄어쓰기 뒤의 나머지. 띄어쓰기가 없으면 빈 문자열
+   */
   get param(): string {
     const index = this.text.indexOf(' ');
     return index === -1 ? '' : this.text.slice(index + 1);
   }
 
-  /** 중복 없이 모은 멘션 유저 목록. 멘션이 없으면 빈 배열 */
+  /**
+   * 중복 없이 모은 멘션 유저 목록. 멘션이 없으면 빈 배열
+   */
   get mentions(): Promise<User[]> {
     const userIds = new Set<string>();
     for (const mention of this.attachment.mentions ?? []) {
@@ -138,13 +158,17 @@ export class MessageChat extends Chat {
     return helper.getUsers(channel, [...userIds]);
   }
 
-  /** 이 메세지를 읽은 유저 목록 */
+  /**
+   * 이 메세지를 읽은 유저 목록
+   */
   get readMembers(): Promise<User[]> {
     const { helper, channel } = messageClient(this);
     return helper.getMessageReaders(channel, this.id, true);
   }
 
-  /** 이 메세지를 읽지 않은 유저 목록 */
+  /**
+   * 이 메세지를 읽지 않은 유저 목록
+   */
   get unreadMembers(): Promise<User[]> {
     const { helper, channel } = messageClient(this);
     return helper.getMessageReaders(channel, this.id, false);
@@ -193,52 +217,72 @@ export class MessageChat extends Chat {
     return helper.getMessage(channel, logId);
   }
 
-  /** 일반 메세지 여부 */
+  /**
+   * 일반 메세지 여부
+   */
   isNormal(): this is NormalChat {
     return false;
   }
 
-  /** 미니 이모티콘이 들어 있는 메세지 여부 */
+  /**
+   * 미니 이모티콘이 들어 있는 메세지 여부
+   */
   isMiniEmoticon(): this is MiniEmoticonChat {
     return false;
   }
 
-  /** 이모티콘 여부 */
+  /**
+   * 이모티콘 여부
+   */
   isEmoticon(): this is EmoticonChat {
     return false;
   }
 
-  /** 사진 여부 */
+  /**
+   * 사진 여부
+   */
   isPhoto(): this is PhotoChat {
     return false;
   }
 
-  /** 동영상 여부 */
+  /**
+   * 동영상 여부
+   */
   isVideo(): this is VideoChat {
     return false;
   }
 
-  /** 음성 여부 */
+  /**
+   * 음성 여부
+   */
   isAudio(): this is AudioChat {
     return false;
   }
 
-  /** 지도 여부 */
+  /**
+   * 지도 여부
+   */
   isMap(): this is MapChat {
     return false;
   }
 
-  /** 프로필 공유 여부 */
+  /**
+   * 프로필 공유 여부
+   */
   isProfile(): this is ProfileChat {
     return false;
   }
 
-  /** 파일 여부 */
+  /**
+   * 파일 여부
+   */
   isFile(): this is FileChat {
     return false;
   }
 
-  /** 여러 장의 사진 여부 */
+  /**
+   * 여러 장의 사진 여부
+   */
   isMultiPhoto(): this is MultiPhotoChat {
     return false;
   }
@@ -252,129 +296,173 @@ export class MessageChat extends Chat {
   }
 }
 
-/** 일반 텍스트 메세지 */
+/**
+ * 일반 텍스트 메세지
+ */
 export class NormalChat extends MessageChat {
   override isNormal(): this is NormalChat {
     return true;
   }
 
-  /** 외치기 메세지 여부 */
+  /**
+   * 외치기 메세지 여부
+   */
   hasShout(): boolean {
     return this.attachment.shout === true;
   }
 }
 
-/** 미니 이모티콘이 들어 있는 메세지 */
+/**
+ * 미니 이모티콘이 들어 있는 메세지
+ */
 export class MiniEmoticonChat extends MessageChat {
   override isMiniEmoticon(): this is MiniEmoticonChat {
     return true;
   }
 
-  /** 미니 이모티콘 정보 */
+  /**
+   * 미니 이모티콘 정보
+   */
   get emojis(): MiniEmoticonAttachment {
     return this.attachment.emojis as MiniEmoticonAttachment;
   }
 }
 
-/** 사진 메세지 */
+/**
+ * 사진 메세지
+ */
 export class PhotoChat extends MessageChat {
   override isPhoto(): this is PhotoChat {
     return true;
   }
 
-  /** 사진 정보 */
+  /**
+   * 사진 정보
+   */
   get photo(): PhotoAttachment {
     return this.attachment as PhotoAttachment;
   }
 }
 
-/** 동영상 메세지 */
+/**
+ * 동영상 메세지
+ */
 export class VideoChat extends MessageChat {
   override isVideo(): this is VideoChat {
     return true;
   }
 
-  /** 동영상 정보 */
+  /**
+   * 동영상 정보
+   */
   get video(): VideoAttachment {
     return this.attachment as VideoAttachment;
   }
 }
 
-/** 음성 메세지 */
+/**
+ * 음성 메세지
+ */
 export class AudioChat extends MessageChat {
   override isAudio(): this is AudioChat {
     return true;
   }
 
-  /** 음성 정보 */
+  /**
+   * 음성 정보
+   */
   get audio(): AudioAttachment {
     return this.attachment as AudioAttachment;
   }
 }
 
-/** 이모티콘 메세지 */
+/**
+ * 이모티콘 메세지
+ */
 export class EmoticonChat extends MessageChat {
   override isEmoticon(): this is EmoticonChat {
     return true;
   }
 
-  /** 이모티콘 정보 */
+  /**
+   * 이모티콘 정보
+   */
   get emoticon(): EmoticonAttachment {
     return this.attachment as EmoticonAttachment;
   }
 }
 
-/** 지도 메세지 */
+/**
+ * 지도 메세지
+ */
 export class MapChat extends MessageChat {
   override isMap(): this is MapChat {
     return true;
   }
 
-  /** 지도 정보 */
+  /**
+   * 지도 정보
+   */
   get map(): MapAttachment {
     return parseMapFields(this.attachment) as MapAttachment;
   }
 }
 
-/** 프로필 공유 메세지 */
+/**
+ * 프로필 공유 메세지
+ */
 export class ProfileChat extends MessageChat {
   override isProfile(): this is ProfileChat {
     return true;
   }
 
-  /** 공유된 프로필 정보 */
+  /**
+   * 공유된 프로필 정보
+   */
   get profile(): ProfileAttachment {
     return this.attachment as ProfileAttachment;
   }
 }
 
-/** 파일 메세지 */
+/**
+ * 파일 메세지
+ */
 export class FileChat extends MessageChat {
   override isFile(): this is FileChat {
     return true;
   }
 
-  /** 파일 정보 */
+  /**
+   * 파일 정보
+   */
   get file(): FileAttachment {
     return this.attachment as FileAttachment;
   }
 }
 
-/** 답장 메세지. 전용 타입 가드가 없으니 `chat instanceof ReplyChat`으로 확인합니다. */
+/**
+ * 답장 메세지. 전용 타입 가드가 없으니 `chat instanceof ReplyChat`으로 확인합니다.
+ */
 export class ReplyChat extends MessageChat {
-  /** 답장 정보. 답장 대상 메세지는 `src_`로 시작하는 키에 있습니다. */
+  /**
+   * 답장 정보. 답장 대상 메세지는 `src_`로 시작하는 키에 있습니다.
+   */
   get reply(): ReplyAttachment {
     return this.attachment as ReplyAttachment;
   }
 }
 
-/** 여러 장의 사진을 묶은 메세지 */
+/**
+ * 여러 장의 사진을 묶은 메세지
+ */
 export class MultiPhotoChat extends MessageChat {
   override isMultiPhoto(): this is MultiPhotoChat {
     return true;
   }
 
-  /** 사진 목록 정보 */
+  /**
+   * 사진 목록 정보
+   */
   get photoList(): MultiPhotoAttachment {
     return this.attachment as MultiPhotoAttachment;
   }

@@ -71,7 +71,9 @@ function publicConnection(entry: DashboardEntry) {
   };
 }
 
-/** 다른 도메인을 127.0.0.1로 돌려 접근하는 DNS 리바인딩을 막는다. */
+/**
+ * 다른 도메인을 127.0.0.1로 돌려 접근하는 DNS 리바인딩을 막는다.
+ */
 function isLocalHost(value: string | undefined): boolean {
   if (!value) return false;
   try {
@@ -235,7 +237,9 @@ function unregister(host: DashboardHost, entry: DashboardEntry, port: number): P
   return Promise.all([host.closing, drained]).then(() => undefined);
 }
 
-/** 같은 포트를 쓰는 클라이언트를 한 대시보드에 등록한다. */
+/**
+ * 같은 포트를 쓰는 클라이언트를 한 대시보드에 등록한다.
+ */
 export async function startDashboard(bridge: DashboardBridge, port: number): Promise<DashboardServer> {
   let host = port === 0 ? undefined : hosts.get(port);
   if (host?.closing) {

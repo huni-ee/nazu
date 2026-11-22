@@ -11,7 +11,9 @@ import { HttpError, sendJson } from '../http.js';
 import { findPost, readPostCursor } from '../posts.js';
 import type { RouteContext } from '../types.js';
 
-/** 카카오에서 내 프로필과 내 게시물을 조회한다. */
+/**
+ * 카카오에서 내 프로필과 내 게시물을 조회한다.
+ */
 export async function handleMeRoute({ request, response, url, client }: RouteContext): Promise<boolean> {
   const pathname = url.pathname;
   if (request.method === 'GET' && pathname === '/api/me/profile') {

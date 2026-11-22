@@ -7,6 +7,7 @@
 import { CHANNEL_TYPE_LABELS } from '../constants/chat.js';
 import { requireElement, ui } from './ui.js';
 import { state } from './state.js';
+import { saveDashboardView } from './session.js';
 import { showToast } from './toast.js';
 import { updateSwitcherProfile } from './connections.js';
 import {
@@ -64,7 +65,8 @@ export function roomSnapshot() {
 }
 
 export function renderNav() {
-  for (const tab of ['home', 'friends', 'chat', 'openchat', 'settings']) {
+  saveDashboardView(state);
+  for (const tab of ['home', 'friends', 'chat', 'openchat', 'roles', 'settings']) {
     const node = requireElement(`nav-${tab}`);
     node.classList.toggle('is-active', state.tab === tab);
     node.setAttribute('aria-current', state.tab === tab ? 'page' : 'false');

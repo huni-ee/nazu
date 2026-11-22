@@ -63,8 +63,8 @@ export {
   KakaoLinkLoginException,
   KakaoLinkReceiverNotFoundException,
   KakaoLinkSendException
-} from './kakao-link/index.js';
-export type { KakaoLinkOptions, KakaoLinkSendOptions, SearchFrom, SearchRoomType } from './kakao-link/index.js';
+} from './kakaolink/index.js';
+export type { KakaoLinkOptions, KakaoLinkSendOptions, SearchFrom, SearchRoomType } from './kakaolink/index.js';
 export type {
   ArisaClientOptions,
   DeleteListener,

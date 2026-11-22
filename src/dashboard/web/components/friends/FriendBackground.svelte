@@ -74,8 +74,10 @@
       class="friend-image-button friend-background-button"
       aria-label={label}
       title={label}
-      onclick={show}>{@render preview()}</button
+      onclick={show}
     >
+      {@render preview()}
+    </button>
   {:else}
     {@render preview()}
   {/if}

@@ -193,24 +193,24 @@
           <fieldset class="home-media-mode" disabled={busy}>
             <legend>전송 방식</legend>
             <div class="home-media-mode-options">
-              <label
-                ><input
+              <label>
+                <input
                   type="radio"
                   name="media-mode"
                   value="single"
                   checked={mode === 'single'}
                   on:change={() => changeMode('single')}
-                /> Single</label
-              >
-              <label
-                ><input
+                /> Single
+              </label>
+              <label>
+                <input
                   type="radio"
                   name="media-mode"
                   value="multiple"
                   checked={mode === 'multiple'}
                   on:change={() => changeMode('multiple')}
-                /> Multiple</label
-              >
+                /> Multiple
+              </label>
             </div>
             <p>Multiple로 전송하는 오디오 파일은 음성 메세지로 전송되며, 파일당 최대 10MB입니다.</p>
           </fieldset>

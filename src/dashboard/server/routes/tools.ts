@@ -376,7 +376,9 @@ async function runTool({ request, url, client }: RouteContext): Promise<unknown>
   throw new HttpError(404, '조회 도구를 찾을 수 없습니다.');
 }
 
-/** 홈 화면의 조회·전송 도구. 오류 응답에는 Arisa의 원래 오류 내용을 넣지 않는다. */
+/**
+ * 홈 화면의 조회·전송 도구. 오류 응답에는 Arisa의 원래 오류 내용을 넣지 않는다.
+ */
 export async function handleToolRoute(context: RouteContext): Promise<boolean> {
   if (!context.url.pathname.startsWith('/api/tools/')) return false;
   sendJson(context.response, 200, await runTool(context));

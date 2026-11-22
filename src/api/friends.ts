@@ -21,7 +21,9 @@ import type {
 } from './types.js';
 import { JsonUtil } from '../utils/json/index.js';
 
-/** 친구 목록을 동기화한다. */
+/**
+ * 친구 목록을 동기화한다.
+ */
 function requestFriendsSync(credential: Credential, since: string | number = 0): Promise<FriendRequestResult> {
   const headers = getHeaders(credential);
   if (String(since) === '0') headers['talk-priority-level'] = 'critical';
@@ -34,7 +36,9 @@ function requestFriendsSync(credential: Credential, since: string | number = 0):
   });
 }
 
-/** 친구 추가 시각을 조회한다. */
+/**
+ * 친구 추가 시각을 조회한다.
+ */
 function requestFriendsCreatedAt(credential: Credential): Promise<FriendRequestResult> {
   return axios.get<string>('https://katalk.kakao.com/android/friends/created-at', {
     headers: getHeaders(credential),
@@ -43,7 +47,9 @@ function requestFriendsCreatedAt(credential: Credential): Promise<FriendRequestR
   });
 }
 
-/** 생일 친구 목록을 조회한다. */
+/**
+ * 생일 친구 목록을 조회한다.
+ */
 function requestBirthdayFriends(credential: Credential): Promise<FriendRequestResult> {
   return axios.get<string>('https://katalk.kakao.com/android/account/settings/birthday_friends', {
     headers: getHeaders(credential),
@@ -52,7 +58,9 @@ function requestBirthdayFriends(credential: Credential): Promise<FriendRequestRe
   });
 }
 
-/** 프로필을 업데이트한 친구 목록을 조회한다. */
+/**
+ * 프로필을 업데이트한 친구 목록을 조회한다.
+ */
 function requestUpdatedProfileFriends(credential: Credential): Promise<FriendRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile25/activity/list', {
     headers: getHeaders(credential),
@@ -61,7 +69,9 @@ function requestUpdatedProfileFriends(credential: Credential): Promise<FriendReq
   });
 }
 
-/** 접근 허가 정보로 친구 상세 프로필을 조회한다. */
+/**
+ * 접근 허가 정보로 친구 상세 프로필을 조회한다.
+ */
 function requestFriendProfile(
   credential: Credential,
   userId: string,
@@ -75,7 +85,9 @@ function requestFriendProfile(
   });
 }
 
-/** 친구에 대해 내가 저장한 메모를 조회한다. */
+/**
+ * 친구에 대해 내가 저장한 메모를 조회한다.
+ */
 function requestFriendMemo(credential: Credential, userId: string): Promise<FriendRequestResult> {
   return axios.get<string>(`https://talk-pilsner.kakao.com/talk/friends/memo/${encodeURIComponent(userId)}`, {
     headers: getHeaders(credential),
@@ -84,7 +96,9 @@ function requestFriendMemo(credential: Credential, userId: string): Promise<Frie
   });
 }
 
-/** 친구 게시물 상세를 조회한다. 큰 게시물 ID는 문자열로 전달한다. */
+/**
+ * 친구 게시물 상세를 조회한다. 큰 게시물 ID는 문자열로 전달한다.
+ */
 function requestFriendPosts(
   credential: Credential,
   userId: string,
@@ -98,7 +112,9 @@ function requestFriendPosts(
   });
 }
 
-/** 친구 게시물 목록의 다음 페이지를 조회한다. */
+/**
+ * 친구 게시물 목록의 다음 페이지를 조회한다.
+ */
 function requestFriendPostPage(credential: Credential, userId: string, cursor: string): Promise<FriendRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile25/post/list/other', {
     headers: getHeaders(credential),
@@ -108,7 +124,9 @@ function requestFriendPostPage(credential: Credential, userId: string, cursor: s
   });
 }
 
-/** 친구 동기화·추가 시각·생일·프로필 업데이트 목록을 함께 조회한다. */
+/**
+ * 친구 동기화·추가 시각·생일·프로필 업데이트 목록을 함께 조회한다.
+ */
 export async function initFriendsList(credential: Credential): Promise<FriendsListData> {
   const [sync, createdAt, birthday, updated] = await Promise.all([
     requestFriendsSync(credential),
@@ -125,7 +143,9 @@ export async function initFriendsList(credential: Credential): Promise<FriendsLi
   };
 }
 
-/** 접근 허가 정보로 친구 상세 프로필을 조회하고 응답 JSON을 읽는다. */
+/**
+ * 접근 허가 정보로 친구 상세 프로필을 조회하고 응답 JSON을 읽는다.
+ */
 export async function initFriendProfile(
   credential: Credential,
   userId: string,
@@ -135,12 +155,16 @@ export async function initFriendProfile(
   return { ...profile, userId: String(profile.userId) };
 }
 
-/** 친구에 대해 내가 저장한 메모를 조회하고 응답 JSON을 읽는다. */
+/**
+ * 친구에 대해 내가 저장한 메모를 조회하고 응답 JSON을 읽는다.
+ */
 export async function initFriendMemo(credential: Credential, userId: string): Promise<FriendMemoResponse> {
   return getJson<FriendMemoResponse>(await requestFriendMemo(credential, userId));
 }
 
-/** 친구 게시물 상세를 조회하고 응답 JSON을 읽는다. 큰 게시물 ID는 문자열로 전달한다. */
+/**
+ * 친구 게시물 상세를 조회하고 응답 JSON을 읽는다. 큰 게시물 ID는 문자열로 전달한다.
+ */
 export async function initFriendPosts(
   credential: Credential,
   userId: string,
@@ -150,7 +174,9 @@ export async function initFriendPosts(
   return { ...posts, userId: String(posts.userId) };
 }
 
-/** 친구 게시물 목록의 다음 페이지를 조회하고 응답 JSON을 읽는다. */
+/**
+ * 친구 게시물 목록의 다음 페이지를 조회하고 응답 JSON을 읽는다.
+ */
 export async function initFriendPostPage(
   credential: Credential,
   userId: string,
@@ -161,9 +187,9 @@ export async function initFriendPostPage(
 
 function getHeaders(credential: Credential): Record<string, string> {
   return {
-    A: 'android/26.8.2/ko',
+    A: 'android/26.10.1/ko',
     Authorization: `${credential.accessToken}-${credential.deviceUuid}`,
-    'User-Agent': 'KT/26.8.2 An/14 ko'
+    'User-Agent': 'KT/26.10.1 An/14 ko'
   };
 }
 

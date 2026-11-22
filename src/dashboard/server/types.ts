@@ -12,7 +12,9 @@ import type { OpenChannelInfo } from '../../types/channel.js';
 import type { MessageChatRaw } from '../../types/chat.js';
 import type { UserRaw } from '../../types/user.js';
 
-/** 대시보드에 필요한 채팅방 멤버 정보 */
+/**
+ * 대시보드에 필요한 채팅방 멤버 정보
+ */
 export interface DashboardMember {
   readonly id: string;
   readonly name: string | null;
@@ -20,7 +22,9 @@ export interface DashboardMember {
   isMine(): boolean;
 }
 
-/** 홈의 유저 조회에서 사용하는 Nazu 유저 정보 */
+/**
+ * 홈의 유저 조회에서 사용하는 Nazu 유저 정보
+ */
 export interface DashboardToolUser extends DashboardMember {
   readonly raw: UserRaw & {
     readonly memberType?: string;
@@ -36,7 +40,9 @@ export interface DashboardToolUser extends DashboardMember {
   isBotUser(): boolean;
 }
 
-/** 대시보드에 필요한 채팅방 정보 */
+/**
+ * 대시보드에 필요한 채팅방 정보
+ */
 export interface DashboardChannel {
   readonly id: string;
   readonly type: string;
@@ -52,13 +58,17 @@ export interface DashboardChannel {
   enter(): Promise<void>;
 }
 
-/** 오픈채팅 유저 ID로 찾은 프로필과 그 채팅방 */
+/**
+ * 오픈채팅 유저 ID로 찾은 프로필과 그 채팅방
+ */
 export interface DashboardOpenUserContext {
   readonly channel: DashboardChannel;
   readonly user: DashboardToolUser;
 }
 
-/** ArisaClient와 대시보드 사이의 연동 인터페이스 */
+/**
+ * ArisaClient와 대시보드 사이의 연동 인터페이스
+ */
 export interface DashboardBridge {
   readonly target: string;
   readonly botName: string | null;
@@ -84,7 +94,9 @@ export interface DashboardBridge {
   getOpenUser(userId: string): Promise<DashboardOpenUserContext>;
 }
 
-/** 내 오픈프로필 */
+/**
+ * 내 오픈프로필
+ */
 interface DashboardOpenProfile {
   readonly id: string;
   readonly name: string;
@@ -97,7 +109,9 @@ interface DashboardOpenProfile {
   readonly expired: boolean;
 }
 
-/** 내 1:1 오픈채팅방 */
+/**
+ * 내 1:1 오픈채팅방
+ */
 interface DashboardDirectOpenChat {
   readonly id: string;
   readonly name: string;
@@ -108,12 +122,16 @@ interface DashboardDirectOpenChat {
   readonly createdAt: number;
 }
 
-/** 내 그룹·커뮤니티 오픈채팅방 */
+/**
+ * 내 그룹·커뮤니티 오픈채팅방
+ */
 interface DashboardOpenChatRoom extends DashboardDirectOpenChat {
   readonly kind: 'community' | 'group';
 }
 
-/** 대시보드 요청을 처리하는 조회·저장 인터페이스 */
+/**
+ * 대시보드 요청을 처리하는 조회·저장 인터페이스
+ */
 export interface DashboardClient extends Pick<
   DashboardBridge,
   | 'target'
@@ -140,7 +158,9 @@ export interface DashboardClient extends Pick<
   getOwnOpenChatRooms(userId: string): Promise<DashboardOpenChatRoom[]>;
 }
 
-/** 대시보드 HTTP 요청 하나를 처리하는 데 필요한 값 */
+/**
+ * 대시보드 HTTP 요청 하나를 처리하는 데 필요한 값
+ */
 export interface RouteContext {
   readonly request: IncomingMessage;
   readonly response: ServerResponse;
@@ -148,5 +168,7 @@ export interface RouteContext {
   readonly client: DashboardClient;
 }
 
-/** 요청을 처리했으면 true, 담당 경로가 아니면 false를 돌려준다. */
+/**
+ * 요청을 처리했으면 true, 담당 경로가 아니면 false를 돌려준다.
+ */
 export type Route = (context: RouteContext) => Promise<boolean>;

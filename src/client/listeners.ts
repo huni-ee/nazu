@@ -20,7 +20,9 @@ import type {
   OpenProfileChangeListener
 } from '../types/event.js';
 
-/** 이벤트 이름별 리스너 타입 */
+/**
+ * 이벤트 이름별 리스너 타입
+ */
 export interface ClientListenerMap {
   readonly message: MessageListener;
   readonly error: ErrorListener;
@@ -56,24 +58,32 @@ export class Listeners {
     open_profile_change: []
   };
 
-  /** 이벤트 리스너를 등록한다. */
+  /**
+   * 이벤트 리스너를 등록한다.
+   */
   on<Name extends ListenerName>(event: Name, listener: ClientListenerMap[Name]): void {
     this.list(event).push(listener);
   }
 
-  /** 이벤트 리스너를 해제한다. */
+  /**
+   * 이벤트 리스너를 해제한다.
+   */
   off<Name extends ListenerName>(event: Name, listener: ClientListenerMap[Name]): void {
     const listeners = this.list(event);
     const index = listeners.indexOf(listener);
     if (index !== -1) listeners.splice(index, 1);
   }
 
-  /** 등록된 리스너가 있는지 확인한다. */
+  /**
+   * 등록된 리스너가 있는지 확인한다.
+   */
   has(event: ListenerName): boolean {
     return this.listeners[event].length !== 0;
   }
 
-  /** 이벤트를 등록된 리스너에 전달한다. */
+  /**
+   * 이벤트를 등록된 리스너에 전달한다.
+   */
   async emit<Name extends ListenerName>(event: Name, ...args: ListenerArgs<Name>): Promise<void> {
     for (const listener of this.list(event)) {
       try {
@@ -85,7 +95,9 @@ export class Listeners {
     }
   }
 
-  /** 리스너에서 난 오류를 `error` 이벤트로 전달한다. */
+  /**
+   * 리스너에서 난 오류를 `error` 이벤트로 전달한다.
+   */
   async emitError(event: string, func: unknown, exception: unknown, args: readonly unknown[]): Promise<void> {
     if (event === 'error' || !this.has('error')) {
       console.error(exception);

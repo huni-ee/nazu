@@ -35,10 +35,14 @@ type UnknownFeedData = {
  * 예전 가리기 피드(13)도 26으로 받고, 나머지는 {@link UnknownFeedChat}으로 받습니다.
  */
 export class FeedChat extends Chat {
-  /** 피드 종류 번호 */
+  /**
+   * 피드 종류 번호
+   */
   readonly feedType: number;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(feedType: number, user: User | null) {
     super(user);
     this.feedType = feedType;
@@ -48,33 +52,47 @@ export class FeedChat extends Chat {
     return true;
   }
 
-  /** 오픈채팅방 삭제 피드 여부 */
+  /**
+   * 오픈채팅방 삭제 피드 여부
+   */
   isOpenChannelDelete(): this is OpenChannelDeleteFeedChat {
     return false;
   }
 
-  /** 관리자만 말하기 피드 여부 */
+  /**
+   * 관리자만 말하기 피드 여부
+   */
   isManagerSpeakerMode(): this is ManagerSpeakerModeFeedChat {
     return false;
   }
 
-  /** 따로 처리하지 않는 피드 여부 */
+  /**
+   * 따로 처리하지 않는 피드 여부
+   */
   isUnknown(): this is UnknownFeedChat {
     return false;
   }
 }
 
-/** 일반 채팅방에 유저가 초대된 피드 */
+/**
+ * 일반 채팅방에 유저가 초대된 피드
+ */
 export class InviteFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.invite;
 
-  /** 초대한 유저. 정보가 없으면 `null` */
+  /**
+   * 초대한 유저. 정보가 없으면 `null`
+   */
   readonly invitedBy: User | null;
 
-  /** 초대된 유저 목록 */
+  /**
+   * 초대된 유저 목록
+   */
   readonly invitedUsers: [User, ...User[]];
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(invitedBy: User | null, invitedUsers: [User, ...User[]]) {
     super(FeedKind.invite, invitedBy);
     this.invitedBy = invitedBy;
@@ -93,14 +111,20 @@ export class InviteFeedChat extends FeedChat {
   }
 }
 
-/** 오픈채팅방에 유저가 들어온 피드 */
+/**
+ * 오픈채팅방에 유저가 들어온 피드
+ */
 export class JoinFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.join;
 
-  /** 들어온 유저 */
+  /**
+   * 들어온 유저
+   */
   readonly joinedUser: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(user: FeedUser) {
     const joinedUser = User.fromFeed(user);
     super(FeedKind.join, joinedUser);
@@ -108,17 +132,25 @@ export class JoinFeedChat extends FeedChat {
   }
 }
 
-/** 오픈채팅방에서 유저가 강퇴된 피드. 팀채팅 강퇴는 {@link LeaveFeedChat}으로 받습니다. */
+/**
+ * 오픈채팅방에서 유저가 강퇴된 피드. 팀채팅 강퇴는 {@link LeaveFeedChat}으로 받습니다.
+ */
 export class KickFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.kick;
 
-  /** 강퇴한 유저. 정보가 없으면 `null` */
+  /**
+   * 강퇴한 유저. 정보가 없으면 `null`
+   */
   readonly kickedBy: User | null;
 
-  /** 강퇴된 유저 */
+  /**
+   * 강퇴된 유저
+   */
   readonly kickedUser: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(kickedBy: User | null, kickedUser: FeedUser) {
     super(FeedKind.kick, kickedBy);
     this.kickedBy = kickedBy;
@@ -126,15 +158,21 @@ export class KickFeedChat extends FeedChat {
   }
 }
 
-/** 유저가 채팅방을 나간 피드 */
+/**
+ * 유저가 채팅방을 나간 피드
+ */
 export class LeaveFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.leave;
-  /** 나간 유저 */
+  /**
+   * 나간 유저
+   */
   readonly leftUser: User;
   private readonly silent: boolean;
   private readonly kicked: boolean;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(silent: boolean, kicked: boolean, user: FeedUser) {
     const leftUser = User.fromFeed(user);
     super(FeedKind.leave, leftUser);
@@ -143,12 +181,16 @@ export class LeaveFeedChat extends FeedChat {
     this.kicked = kicked;
   }
 
-  /** 조용히 나가기 여부 */
+  /**
+   * 조용히 나가기 여부
+   */
   isSilent(): boolean {
     return this.silent;
   }
 
-  /** 팀채팅 강퇴 여부 */
+  /**
+   * 팀채팅 강퇴 여부
+   */
   isKicked(): boolean {
     return this.kicked;
   }
@@ -159,16 +201,26 @@ export class LeaveFeedChat extends FeedChat {
  * 아래 속성은 모두 선택적이고, `isPromote()` 같은 메서드로 좁히면 해당 속성이 항상 있습니다.
  */
 export class MemberTypeChangeFeedChat extends FeedChat {
-  /** 부방장으로 임명된 유저 */
+  /**
+   * 부방장으로 임명된 유저
+   */
   readonly promotedUser?: User;
-  /** 부방장에서 해제된 유저 */
+  /**
+   * 부방장에서 해제된 유저
+   */
   readonly demotedUser?: User;
-  /** 이전 방장 */
+  /**
+   * 이전 방장
+   */
   readonly previousHost?: User;
-  /** 새 방장 */
+  /**
+   * 새 방장
+   */
   readonly newHost?: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(
     feedType: number,
     user: User | null,
@@ -184,30 +236,42 @@ export class MemberTypeChangeFeedChat extends FeedChat {
     if (newHost !== undefined) this.newHost = newHost;
   }
 
-  /** 부방장 임명 피드 여부 */
+  /**
+   * 부방장 임명 피드 여부
+   */
   isPromote(): this is PromoteFeedChat {
     return false;
   }
 
-  /** 부방장 해제 피드 여부 */
+  /**
+   * 부방장 해제 피드 여부
+   */
   isDemote(): this is DemoteFeedChat {
     return false;
   }
 
-  /** 방장 위임 피드 여부 */
+  /**
+   * 방장 위임 피드 여부
+   */
   isHandover(): this is HandoverFeedChat {
     return false;
   }
 }
 
-/** 부방장이 임명된 피드 */
+/**
+ * 부방장이 임명된 피드
+ */
 export class PromoteFeedChat extends MemberTypeChangeFeedChat {
   declare readonly feedType: typeof FeedKind.promote;
 
-  /** 부방장으로 임명된 유저 */
+  /**
+   * 부방장으로 임명된 유저
+   */
   declare readonly promotedUser: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(user: User | null, promotedUser: User) {
     super(FeedKind.promote, user, promotedUser);
   }
@@ -217,14 +281,20 @@ export class PromoteFeedChat extends MemberTypeChangeFeedChat {
   }
 }
 
-/** 부방장이 해제된 피드 */
+/**
+ * 부방장이 해제된 피드
+ */
 export class DemoteFeedChat extends MemberTypeChangeFeedChat {
   declare readonly feedType: typeof FeedKind.demote;
 
-  /** 부방장에서 해제된 유저 */
+  /**
+   * 부방장에서 해제된 유저
+   */
   declare readonly demotedUser: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(user: User | null, demotedUser: User) {
     super(FeedKind.demote, user, undefined, demotedUser);
   }
@@ -234,17 +304,25 @@ export class DemoteFeedChat extends MemberTypeChangeFeedChat {
   }
 }
 
-/** 방장이 바뀐 피드 */
+/**
+ * 방장이 바뀐 피드
+ */
 export class HandoverFeedChat extends MemberTypeChangeFeedChat {
   declare readonly feedType: typeof FeedKind.handover;
 
-  /** 이전 방장 */
+  /**
+   * 이전 방장
+   */
   declare readonly previousHost: User;
 
-  /** 새 방장 */
+  /**
+   * 새 방장
+   */
   declare readonly newHost: User;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(user: User | null, previousHost: User, newHost: User) {
     super(FeedKind.handover, user, undefined, undefined, previousHost, newHost);
   }
@@ -254,7 +332,9 @@ export class HandoverFeedChat extends MemberTypeChangeFeedChat {
   }
 }
 
-/** 삭제된 메세지 */
+/**
+ * 삭제된 메세지
+ */
 export class DeletedChat extends MessageChat {
   /**
    * 방장이나 부방장이 가린 메세지 여부. 팀채팅이 아니면 `undefined`
@@ -262,7 +342,9 @@ export class DeletedChat extends MessageChat {
    */
   declare readonly byHost?: boolean;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(
     data: MessageChatInput,
     user: User | null,
@@ -275,17 +357,25 @@ export class DeletedChat extends MessageChat {
   }
 }
 
-/** 메세지가 삭제된 피드 */
+/**
+ * 메세지가 삭제된 피드
+ */
 export class DeleteFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.delete;
 
-  /** 삭제한 유저. 정보가 없으면 `null` */
+  /**
+   * 삭제한 유저. 정보가 없으면 `null`
+   */
   readonly deletedBy: User | null;
 
-  /** 삭제된 메세지 */
+  /**
+   * 삭제된 메세지
+   */
   readonly deletedChat: DeletedChat;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(
     data: MessageChatInput,
     user: User | null,
@@ -300,18 +390,28 @@ export class DeleteFeedChat extends FeedChat {
   }
 }
 
-/** 수정된 메세지 */
+/**
+ * 수정된 메세지
+ */
 export class EditChat extends MessageChat {
-  /** 수정 전 내용 */
+  /**
+   * 수정 전 내용
+   */
   readonly beforeText: string;
 
-  /** 수정 후 내용 */
+  /**
+   * 수정 후 내용
+   */
   readonly afterText: string;
 
-  /** 수정 번호 */
+  /**
+   * 수정 번호
+   */
   readonly revision: number;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(
     data: MessageChatInput,
     user: User | null,
@@ -327,17 +427,25 @@ export class EditChat extends MessageChat {
   }
 }
 
-/** 메세지가 수정된 피드 */
+/**
+ * 메세지가 수정된 피드
+ */
 export class EditFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.edit;
 
-  /** 수정한 유저. 정보가 없으면 `null` */
+  /**
+   * 수정한 유저. 정보가 없으면 `null`
+   */
   readonly editedBy: User | null;
 
-  /** 수정된 메세지 */
+  /**
+   * 수정된 메세지
+   */
   readonly editChat: EditChat;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(
     data: MessageChatInput,
     user: User | null,
@@ -353,24 +461,38 @@ export class EditFeedChat extends FeedChat {
   }
 }
 
-/** 가려진 메세지. 원본을 찾지 못하면 `id` 말고는 모두 `null` */
+/**
+ * 가려진 메세지. 원본을 찾지 못하면 `id` 말고는 모두 `null`
+ */
 export class HiddenChat {
-  /** 메세지 로그 ID */
+  /**
+   * 메세지 로그 ID
+   */
   readonly id: string;
 
-  /** 스레드 ID */
+  /**
+   * 스레드 ID
+   */
   readonly threadId: string | null;
 
-  /** 메세지 타입 번호 */
+  /**
+   * 메세지 타입 번호
+   */
   readonly type: number | null;
 
-  /** 메세지 내용 */
+  /**
+   * 메세지 내용
+   */
   readonly text: string | null;
 
-  /** 첨부 데이터 */
+  /**
+   * 첨부 데이터
+   */
   readonly attachment: Attachment | null;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(id: string, data?: MessageChatInput) {
     this.id = id;
 
@@ -391,20 +513,30 @@ export class HiddenChat {
   }
 }
 
-/** 방장이나 부방장이 메세지를 가린 피드 */
+/**
+ * 방장이나 부방장이 메세지를 가린 피드
+ */
 export class HideFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.hide;
 
-  /** 메세지를 가린 유저. 정보가 없으면 `null` */
+  /**
+   * 메세지를 가린 유저. 정보가 없으면 `null`
+   */
   readonly hiddenBy: User | null;
 
-  /** 가려진 메세지를 보낸 유저 목록. 찾지 못한 유저는 `null` */
+  /**
+   * 가려진 메세지를 보낸 유저 목록. 찾지 못한 유저는 `null`
+   */
   readonly hiddenUsers: [User | null, ...(User | null)[]];
 
-  /** 가려진 메세지 목록 */
+  /**
+   * 가려진 메세지 목록
+   */
   readonly hiddenChats: HiddenChat[];
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(data: HiddenMessagesInput, hiddenBy: User | null, hiddenUsers: [User | null, ...(User | null)[]]) {
     super(FeedKind.hide, hiddenBy);
     this.hiddenBy = hiddenBy;
@@ -435,11 +567,15 @@ export class HideFeedChat extends FeedChat {
   }
 }
 
-/** 오픈채팅방이 삭제된 피드 */
+/**
+ * 오픈채팅방이 삭제된 피드
+ */
 export class OpenChannelDeleteFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.openChannelDelete;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(user: User | null) {
     super(FeedKind.openChannelDelete, user);
   }
@@ -449,19 +585,25 @@ export class OpenChannelDeleteFeedChat extends FeedChat {
   }
 }
 
-/** 관리자만 말하기를 켜거나 끈 피드 */
+/**
+ * 관리자만 말하기를 켜거나 끈 피드
+ */
 export class ManagerSpeakerModeFeedChat extends FeedChat {
   declare readonly feedType: typeof FeedKind.managerSpeakerMode;
 
   private readonly enabled: boolean;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(enabled: boolean, user: User | null) {
     super(FeedKind.managerSpeakerMode, user);
     this.enabled = enabled;
   }
 
-  /** 관리자만 말하기를 켰는지 여부 */
+  /**
+   * 관리자만 말하기를 켰는지 여부
+   */
   isEnabled(): boolean {
     return this.enabled;
   }
@@ -471,15 +613,23 @@ export class ManagerSpeakerModeFeedChat extends FeedChat {
   }
 }
 
-/** 따로 처리하지 않는 피드. 챗봇 피드도 여기로 옵니다. `feedType`을 읽지 못하면 `-1` */
+/**
+ * 따로 처리하지 않는 피드. 챗봇 피드도 여기로 옵니다. `feedType`을 읽지 못하면 `-1`
+ */
 export class UnknownFeedChat extends FeedChat {
-  /** 피드 원본 JSON 문자열 */
+  /**
+   * 피드 원본 JSON 문자열
+   */
   readonly raw: string;
 
-  /** 이벤트 타입 번호. 읽지 못하면 `null` */
+  /**
+   * 이벤트 타입 번호. 읽지 못하면 `null`
+   */
   readonly eventType: number | null;
 
-  /** @internal 이벤트로 받은 객체를 쓰세요. */
+  /**
+   * @internal 이벤트로 받은 객체를 쓰세요.
+   */
   constructor(rawJson: string, feedType?: number, eventType?: number | null, user: User | null = null) {
     if (feedType === undefined || eventType === undefined) {
       const data = readFeedJson(rawJson);

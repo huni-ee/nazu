@@ -17,7 +17,9 @@ interface StoredSelfProfile {
   readonly statusMessage: string | null;
 }
 
-/** DB에 저장한 내 메인 프로필을 화면에 보낼 형태로 읽는다. */
+/**
+ * DB에 저장한 내 메인 프로필을 화면에 보낼 형태로 읽는다.
+ */
 export function readSelfProfile(userId: string | null, database: Database.Database): StoredSelfProfile | null {
   if (userId === null) return null;
   const user = getSelfProfile(userId, database);
@@ -31,7 +33,9 @@ export function readSelfProfile(userId: string | null, database: Database.Databa
   };
 }
 
-/** 채팅방에서 쓰는 내 프로필을 조회한다. */
+/**
+ * 채팅방에서 쓰는 내 프로필을 조회한다.
+ */
 export async function readDashboardRoomSelfProfile(
   client: DashboardClient,
   channelId: string,
@@ -78,7 +82,9 @@ export async function readDashboardRoomSelfProfile(
   }
 }
 
-/** 내 이름이 봇 설정값과 같으면 실제 닉네임인지 알 수 없어 '나'로 바꾼다. */
+/**
+ * 내 이름이 봇 설정값과 같으면 실제 닉네임인지 알 수 없어 '나'로 바꾼다.
+ */
 export function dashboardSelfName(name: string | null, botName: string | null): string | null {
   return botName && name?.trim() === botName.trim() ? '나' : name;
 }

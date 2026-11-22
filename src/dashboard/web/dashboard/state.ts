@@ -22,11 +22,11 @@ const initialView = getDashboardView();
 export const state = {
   tab: initialView.tab,
   connection: 'checking' as ConnectionState,
-  selectedChannelId: null as string | null,
-  selectedMemberId: null as string | null,
-  selectedOpenGroupKey: null as string | null,
-  selectedFriendKey: null as string | null,
-  selectedSelf: false,
+  selectedChannelId: initialView.selectedChannelId,
+  selectedMemberId: initialView.selectedMemberId,
+  selectedOpenGroupKey: initialView.selectedOpenGroupKey,
+  selectedFriendKey: initialView.selectedFriendKey,
+  selectedSelf: initialView.selectedSelf,
   roleView: initialView.roleView,
   channels: [] as Channel[],
   ownOpenGroups: [] as OpenGroup[],
@@ -76,6 +76,6 @@ export const state = {
   friendsError: '',
   listQuery: '',
   memberQuery: '',
-  mobileSelection: false,
+  mobileSelection: initialView.mobileSelection,
   pending: new Set<string>()
 };

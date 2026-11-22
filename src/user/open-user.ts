@@ -8,13 +8,21 @@ import { LinkMemberType, type Member, ProfileType } from '../grpc/generated/aris
 import type { OpenMemberType, OpenProfileType, OpenUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 오픈채팅방 유저 */
+/**
+ * 오픈채팅방 유저
+ */
 export class OpenUser extends User {
-  /** 오픈채팅 프로필 종류 */
+  /**
+   * 오픈채팅 프로필 종류
+   */
   readonly profileType: OpenProfileType;
-  /** 오픈채팅방 멤버 종류 */
+  /**
+   * 오픈채팅방 멤버 종류
+   */
   readonly memberType: OpenMemberType;
-  /** 오픈프로필 링크 ID */
+  /**
+   * 오픈프로필 링크 ID
+   */
   readonly profileLinkId: string;
 
   constructor(
@@ -46,7 +54,9 @@ export class OpenUser extends User {
     };
   }
 
-  /** @internal 서버의 멤버 데이터로 유저를 만듭니다. 오픈채팅 정보가 없으면 오류가 납니다. */
+  /**
+   * @internal 서버의 멤버 데이터로 유저를 만듭니다. 오픈채팅 정보가 없으면 오류가 납니다.
+   */
   static from(member: Member): OpenUser {
     const openChannel = member.openChannel;
     if (openChannel === undefined) throw new Error('오픈채팅 사용자 정보가 없습니다.');

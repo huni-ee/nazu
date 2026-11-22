@@ -10,7 +10,9 @@ import Database from 'better-sqlite3';
 
 let database: Database.Database | null = null;
 
-/** 데이터베이스를 초기화한다. */
+/**
+ * 데이터베이스를 초기화한다.
+ */
 export function initDatabase(): Database.Database {
   if (database !== null) return database;
 
@@ -45,12 +47,16 @@ export function initDatabase(): Database.Database {
   return openedDatabase;
 }
 
-/** 초기화한 데이터베이스를 돌려준다. 초기화 전이면 `null`이다. */
+/**
+ * 초기화한 데이터베이스를 돌려준다. 초기화 전이면 `null`이다.
+ */
 export function getDatabase(): Database.Database | null {
   return database;
 }
 
-/** 기존 인증 기록을 계정 ID별로 옮긴다. 잘못된 기록이 있으면 원본 테이블을 유지한다. */
+/**
+ * 기존 인증 기록을 계정 ID별로 옮긴다. 잘못된 기록이 있으면 원본 테이블을 유지한다.
+ */
 function migrateAuth(database: Database.Database): void {
   const legacyTable = database
     .prepare<[string], { readonly name: string }>("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?")

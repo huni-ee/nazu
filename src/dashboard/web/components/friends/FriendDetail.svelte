@@ -119,9 +119,9 @@
           <Loading message="친구 메모를 불러오는 중…" />
         {:else if memoError}
           <p class="friend-memo-error">{memoError}</p>
-          <button type="button" class="button-secondary" onclick={() => bridge.loadFriendMemo(friend, true)}
-            >다시 시도</button
-          >
+          <button type="button" class="button-secondary" onclick={() => bridge.loadFriendMemo(friend, true)}>
+            다시 시도
+          </button>
         {:else}
           <p class="friend-memo-text" class:is-empty={!memo}>{memo || '저장된 메모가 없습니다.'}</p>
         {/if}
@@ -136,9 +136,9 @@
   {:else if !isSelf && state.friendProfileErrors.has(friend.id)}
     <div class="friend-detail-extra-state">
       <p>{state.friendProfileErrors.get(friend.id)}</p>
-      <button type="button" class="button-secondary" onclick={() => bridge.loadFriendProfile(friend, true)}
-        >다시 시도</button
-      >
+      <button type="button" class="button-secondary" onclick={() => bridge.loadFriendProfile(friend, true)}>
+        다시 시도
+      </button>
     </div>
   {/if}
 

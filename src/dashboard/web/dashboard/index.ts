@@ -29,6 +29,7 @@ requireElement('nav-friends').addEventListener('click', () => setTab('friends'))
 requireElement('nav-settings').addEventListener('click', () => setTab('settings'));
 requireElement('nav-chat').addEventListener('click', () => setTab('chat'));
 requireElement('nav-openchat').addEventListener('click', () => setTab('openchat'));
+requireElement('nav-roles').addEventListener('click', () => setTab('roles'));
 requireElement('back-button').addEventListener('click', goBack);
 ui.listSearchToggle.addEventListener('click', () => {
   if (ui.listSearchWrap.dataset.open) {

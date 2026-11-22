@@ -83,7 +83,14 @@ export function setTab(tab: string) {
   if (tab === 'friends' && state.connection === 'connected') {
     void loadMe();
     if (!state.friendsLoaded) void loadFriends();
+    else {
+      // 새로고침 뒤 다른 메뉴에서 넘어오면 선택한 친구의 프로필이 아직 없다.
+      const friend = currentFriend();
+      void loadFriendProfile(friend);
+      void loadFriendMemo(friend);
+    }
   }
+  if (tab === 'roles' && !state.rolesLoaded && !state.rolesLoading) void loadRoles();
 }
 
 export function goBack() {

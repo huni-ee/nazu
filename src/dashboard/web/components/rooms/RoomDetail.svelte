@@ -75,8 +75,8 @@
 </script>
 
 {#snippet search(placeholder)}
-  <label class="search-field member-search"
-    ><Icon name="search" /><input
+  <label class="search-field member-search">
+    <Icon name="search" /><input
       bind:this={searchInput}
       type="search"
       autocomplete="off"
@@ -84,8 +84,8 @@
       aria-label={placeholder}
       value={state.memberQuery}
       oninput={updateQuery}
-    /></label
-  >
+    />
+  </label>
 {/snippet}
 
 {#if state.tab === 'roles'}
@@ -115,8 +115,10 @@
               class="role-button {roleKind} is-on role-removal"
               aria-label={`${member.name} ${roleKind === 'admin' ? '관리자' : '밴'} 해제`}
               disabled={state.pending.has(`${roleKind}:${member.id}`)}
-              onclick={() => actions.changeRole(member, roleKind, false)}>해제</button
+              onclick={() => actions.changeRole(member, roleKind, false)}
             >
+              해제
+            </button>
           </div>
         </li>
       {:else}
@@ -132,9 +134,9 @@
   </div>
 {:else if channel && selected}
   <div class="room-member-detail is-friend-detail">
-    <button type="button" class="button-secondary room-member-back" onclick={() => actions.selectMember(null)}
-      >멤버 목록</button
-    >
+    <button type="button" class="button-secondary room-member-back" onclick={() => actions.selectMember(null)}>
+      멤버 목록
+    </button>
     <div class="friend-detail-content">
       <div class="friend-detail-frame">
         <div class="friend-detail-summary">
@@ -181,8 +183,10 @@
             type="button"
             class="icon-button room-list-back"
             aria-label="채팅방 목록으로 돌아가기"
-            onclick={actions.goBack}><Icon name="chevron-left" /></button
+            onclick={actions.goBack}
           >
+            <Icon name="chevron-left" />
+          </button>
           <h3 class="room-info-heading" id="room-info-title">채팅방 정보</h3>
         </div>
         <button
@@ -190,10 +194,11 @@
           class="button-secondary room-info-enter"
           disabled={state.pending.has(`enter:${channel.id}`)}
           onclick={() => actions.enterRoom(channel)}
-          ><Icon name="channel-enter" /><span
-            >{state.pending.has(`enter:${channel.id}`) ? '열기 요청 중…' : '카카오톡에서 열기'}</span
-          ></button
         >
+          <Icon name="channel-enter" /><span>
+            {state.pending.has(`enter:${channel.id}`) ? '열기 요청 중…' : '카카오톡에서 열기'}
+          </span>
+        </button>
       </div>
       <div class="room-info-summary">
         <Avatar url={channel.profileImageUrl} fallback={channelAvatarFallback(channel.type)} />
@@ -209,8 +214,10 @@
               class="icon-button room-info-copy"
               aria-label="채팅방 ID 복사"
               title="채팅방 ID 복사"
-              onclick={(event) => copy(event, channel.id, '채팅방 ID를 복사했습니다.')}><CopyIcon /></button
+              onclick={(event) => copy(event, channel.id, '채팅방 ID를 복사했습니다.')}
             >
+              <CopyIcon />
+            </button>
           </dd>
         </div>
         {#if type}<div class="room-info-field">
@@ -237,16 +244,19 @@
                 class="room-info-link"
                 href={safeImageUrl(channel.openChannel.url)}
                 target="_blank"
-                rel="noopener noreferrer">{safeImageUrl(channel.openChannel.url)}</a
+                rel="noopener noreferrer"
               >
+                {safeImageUrl(channel.openChannel.url)}
+              </a>
               <button
                 type="button"
                 class="icon-button room-info-copy"
                 aria-label="오픈채팅 링크 복사"
                 title="오픈채팅 링크 복사"
                 onclick={(event) => copy(event, safeImageUrl(channel.openChannel.url), '오픈채팅 링크를 복사했습니다.')}
-                ><CopyIcon /></button
               >
+                <CopyIcon />
+              </button>
             </dd>
           </div>{/if}
       </dl>
@@ -263,8 +273,10 @@
           aria-expanded={memberSearchOpen}
           aria-controls="room-member-search"
           disabled={!members}
-          onclick={toggleMemberSearch}><Icon name="search" /></button
+          onclick={toggleMemberSearch}
         >
+          <Icon name="search" />
+        </button>
         <button
           type="button"
           class="icon-button room-members-refresh"
@@ -272,8 +284,10 @@
           title="멤버 새로고침"
           aria-busy={state.membersLoading.has(channel.id)}
           disabled={state.membersLoading.has(channel.id)}
-          onclick={() => actions.loadMembers(channel.id, true)}><Icon name="refresh" /></button
+          onclick={() => actions.loadMembers(channel.id, true)}
         >
+          <Icon name="refresh" />
+        </button>
       </div>
     </div>
     {#if !members && state.membersLoading.has(channel.id)}<p>멤버 목록을 불러오는 중…</p>
@@ -282,8 +296,10 @@
         <button
           type="button"
           class="button-secondary room-member-back"
-          onclick={() => actions.loadMembers(channel.id, true)}>다시 시도</button
+          onclick={() => actions.loadMembers(channel.id, true)}
         >
+          다시 시도
+        </button>
       </div>
     {:else}
       <div id="room-member-search" hidden={!memberSearchOpen}>
@@ -298,16 +314,18 @@
               class="member-profile-button"
               aria-label={`${member.name} 프로필 보기`}
               onclick={() => actions.selectMember(member.id)}
-              ><Avatar url={member.profileImageUrl} small />
-              <div class="member-info">
-                <span class="member-name"
-                  ><span class="member-label">{member.name}</span
-                  >{#if member.host || member.moderator || member.isBot}<span class="member-role"
-                      >{member.host ? '방장' : member.moderator ? '부방장' : '봇'}</span
-                    >{/if}</span
-                ><span class="member-id">ID {member.id}</span>
-              </div></button
             >
+              <Avatar url={member.profileImageUrl} small />
+              <div class="member-info">
+                <span class="member-name">
+                  <span class="member-label">
+                    {member.name}
+                  </span>{#if member.host || member.moderator || member.isBot}<span class="member-role">
+                      {member.host ? '방장' : member.moderator ? '부방장' : '봇'}
+                    </span>{/if}
+                </span><span class="member-id">ID {member.id}</span>
+              </div>
+            </button>
             <div class="member-actions">
               <RoleButton {member} kind="admin" {state} {actions} {helpers} /><RoleButton
                 {member}

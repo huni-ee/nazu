@@ -14,12 +14,18 @@ import { OpenUser } from '../user/open-user.js';
 import { UserSelf } from '../user/user-self.js';
 import { Channel } from './channel.js';
 
-/** 오픈채팅방 */
+/**
+ * 오픈채팅방
+ */
 export class OpenChannel extends Channel {
-  /** 오픈채팅방 종류 */
+  /**
+   * 오픈채팅방 종류
+   */
   declare readonly type: OpenChannelType;
 
-  /** @internal 이벤트나 클라이언트가 만든 객체를 쓰세요. */
+  /**
+   * @internal 이벤트나 클라이언트가 만든 객체를 쓰세요.
+   */
   constructor(
     id: string,
     type: OpenChannelType,

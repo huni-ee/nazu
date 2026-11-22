@@ -64,23 +64,31 @@
               aria-label="친구 검색"
               aria-expanded="false"
               aria-controls="list-search-wrap"
-              title="친구 검색"><Icon name="search" /></button
+              title="친구 검색"
             >
-            <button class="icon-button" id="list-refresh" type="button" aria-label="목록 새로고침" title="목록 새로고침"
-              ><Icon name="refresh" /></button
+              <Icon name="search" />
+            </button>
+            <button
+              class="icon-button"
+              id="list-refresh"
+              type="button"
+              aria-label="목록 새로고침"
+              title="목록 새로고침"
             >
+              <Icon name="refresh" />
+            </button>
           </div>
         </header>
         <div class="search-wrap" id="list-search-wrap" hidden>
-          <label class="search-field"
-            ><Icon name="search" /><input
+          <label class="search-field">
+            <Icon name="search" /><input
               id="list-search"
               type="search"
               autocomplete="off"
               placeholder="친구 검색"
               aria-label="친구 검색"
-            /></label
-          >
+            />
+          </label>
         </div>
       </div>
       <div class="channel-scroll" id="channel-scroll"><ul class="channel-list" id="channel-list"></ul></div>
@@ -108,16 +116,20 @@
             type="button"
             aria-label="멤버 검색"
             title="멤버 검색"
-            hidden><Icon name="search" /></button
+            hidden
           >
+            <Icon name="search" />
+          </button>
           <button
             class="icon-button"
             id="member-refresh"
             type="button"
             aria-label="멤버 새로고침"
             title="멤버 새로고침"
-            hidden><Icon name="refresh" /></button
+            hidden
           >
+            <Icon name="refresh" />
+          </button>
         </div>
       </header>
       <div class="detail-scroll" id="detail-scroll">
@@ -136,8 +148,10 @@
                   type="button"
                   aria-label="연결 다시 확인"
                   title="연결 다시 확인"
-                  disabled><Icon name="refresh" /></button
+                  disabled
                 >
+                  <Icon name="refresh" />
+                </button>
               </div>
               <p class="home-connection-meta">계정 연결 정보를 불러오고 있습니다.</p>
             </section>

@@ -106,9 +106,9 @@
   {#each [{ label: '친구', entries: visibleFriends }, { label: '숨김 친구', entries: visibleHiddenFriends }] as group}
     {#if group.entries.length}
       <li class="list-divider">
-        <span class="friend-group-label"
-          ><span>{group.label}</span><span class="friend-group-count">{group.entries.length}</span></span
-        >
+        <span class="friend-group-label">
+          <span>{group.label}</span><span class="friend-group-count">{group.entries.length}</span>
+        </span>
       </li>
       {#each group.entries as friend (friend.key)}{@render row(friend)}{/each}
     {/if}
@@ -125,9 +125,9 @@
           aria-expanded={String(state[group.key])}
           onclick={() => toggleGroup(group.key)}
         >
-          <span class="friend-group-label"
-            ><span>{group.label}</span><span class="friend-group-count">{group.entries.length}</span></span
-          ><span class="friend-group-chevron"></span>
+          <span class="friend-group-label">
+            <span>{group.label}</span><span class="friend-group-count">{group.entries.length}</span>
+          </span><span class="friend-group-chevron"></span>
         </button>
       </li>
       {#if state[group.key]}{#each group.entries as friend (friend.key)}{@render row(friend)}{/each}{/if}

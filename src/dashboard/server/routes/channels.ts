@@ -64,7 +64,9 @@ async function readOpenDirectImages(
   );
 }
 
-/** 홈 도구의 메세지 전송과 읽음 처리 요청을 채팅방에 전달한다. */
+/**
+ * 홈 도구의 메세지 전송과 읽음 처리 요청을 채팅방에 전달한다.
+ */
 async function sendChannelAction(
   { request, response, client }: RouteContext,
   channelId: string,
@@ -85,7 +87,9 @@ async function sendChannelAction(
   sendJson(response, 200, { queued: true, channelId });
 }
 
-/** 채팅방 목록, 멤버 목록, 메세지 전송과 읽음 처리 */
+/**
+ * 채팅방 목록, 멤버 목록, 메세지 전송과 읽음 처리
+ */
 export async function handleChannelRoute(context: RouteContext): Promise<boolean> {
   const { request, response, url, client } = context;
   const pathname = url.pathname;

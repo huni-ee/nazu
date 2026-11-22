@@ -6,7 +6,7 @@
     "src/channel/index.ts",
     "src/chat/index.ts",
     "src/user/index.ts",
-    "src/kakao-link/index.ts",
+    "src/kakaolink/index.ts",
     "src/decorators/index.ts"
   ],
   "out": "docs",

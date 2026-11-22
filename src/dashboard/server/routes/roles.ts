@@ -32,7 +32,9 @@ async function readRoleChange(request: IncomingMessage): Promise<RoleChange> {
   };
 }
 
-/** 봇 관리자·밴 목록을 조회하고 변경한다. */
+/**
+ * 봇 관리자·밴 목록을 조회하고 변경한다.
+ */
 export async function handleRoleRoute({ request, response, url, client }: RouteContext): Promise<boolean> {
   const pathname = url.pathname;
   if (request.method === 'GET' && pathname === '/api/roles') {

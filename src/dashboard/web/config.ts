@@ -45,6 +45,12 @@ export const navBarConfig: NavBarConfig = {
       name: '오픈채팅방',
       icon: 'openchat',
       active: false
+    },
+    {
+      id: 'nav-roles',
+      name: '권한',
+      icon: 'shield',
+      active: false
     }
   ],
   // 사이드바 아래쪽 메뉴
@@ -67,6 +73,7 @@ export const iconConfig = {
   // 아이콘 변경 후 `npm run build`를 실행하면 화면에 반영됩니다.
   user: 'ri:user-line',
   users: 'ri:group-line',
+  shield: 'ri:shield-user-line',
   favorite: 'ri:star-fill',
   'favorite-outline': 'ri:star-line',
   settings: 'ri:settings-4-line',

@@ -47,7 +47,9 @@ async function handleRequest(
   response.end();
 }
 
-/** 대시보드 API와 정적 화면 파일의 요청을 처리한다. */
+/**
+ * 대시보드 API와 정적 화면 파일의 요청을 처리한다.
+ */
 export function createDashboardHandler(client: DashboardClient) {
   const mediaUploads = createMediaUploadRoute(client);
   const routes: Route[] = [

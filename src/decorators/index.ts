@@ -67,13 +67,19 @@ export const isReply = decorate(async (chat, channel) => {
   return false;
 });
 
-/** 앞뒤 공백을 뺀 메세지가 두 단어 이상일 때만 리스너를 실행합니다. */
+/**
+ * 앞뒤 공백을 뺀 메세지가 두 단어 이상일 때만 리스너를 실행합니다.
+ */
 export const hasParam = decorate((chat) => chat.text.trim().split(/\s+/).length > 1);
 
-/** 보낸 유저가 관리자 목록에 있을 때만 리스너를 실행합니다. 관리자는 대시보드에서 추가합니다. */
+/**
+ * 보낸 유저가 관리자 목록에 있을 때만 리스너를 실행합니다. 관리자는 대시보드에서 추가합니다.
+ */
 export const isAdmin = decorate((chat) => adminCheck(chat.user));
 
-/** 보낸 유저가 밴 목록에 없을 때만 리스너를 실행합니다. 유저 정보가 없거나 데이터베이스가 준비되지 않았어도 실행합니다. */
+/**
+ * 보낸 유저가 밴 목록에 없을 때만 리스너를 실행합니다. 유저 정보가 없거나 데이터베이스가 준비되지 않았어도 실행합니다.
+ */
 export const isNotBanned = decorate((chat) => !banCheck(chat.user));
 
 /**
@@ -114,7 +120,9 @@ export function banCheck(user: User | null): boolean {
   return banned !== undefined;
 }
 
-/** 유저를 밴 목록에 추가합니다. 새로 추가했으면 `true`, 이미 있었으면 `false` */
+/**
+ * 유저를 밴 목록에 추가합니다. 새로 추가했으면 `true`, 이미 있었으면 `false`
+ */
 export function addBan(user: User | null): boolean {
   if (user === null) return false;
 
@@ -125,7 +133,9 @@ export function addBan(user: User | null): boolean {
   return result.changes > 0;
 }
 
-/** 유저를 밴 목록에서 뺍니다. 뺐으면 `true`, 목록에 없었으면 `false` */
+/**
+ * 유저를 밴 목록에서 뺍니다. 뺐으면 `true`, 목록에 없었으면 `false`
+ */
 export function removeBan(user: User | null): boolean {
   if (user === null) return false;
 

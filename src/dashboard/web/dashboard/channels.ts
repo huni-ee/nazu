@@ -43,6 +43,7 @@ export async function loadChannels() {
     ].filter((entry) => normalizeId(entry.id));
     if (state.selectedOpenGroupKey && !selectedOpenGroup()) {
       state.selectedOpenGroupKey = null;
+      if (!state.selectedChannelId) state.mobileSelection = false;
     }
     state.channelsLoaded = true;
     if (state.selectedChannelId && !state.channels.some((channel) => channel.id === state.selectedChannelId)) {

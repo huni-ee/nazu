@@ -18,6 +18,7 @@ type DashboardIconName =
   | 'chat'
   | 'user'
   | 'users'
+  | 'shield'
   | 'favorite'
   | 'favorite-outline'
   | 'settings'

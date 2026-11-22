@@ -16,7 +16,9 @@ export function hasControlCharacter(value: string): boolean {
   return false;
 }
 
-/** 경로나 DB에 그대로 써도 되는 ID인지 확인한다. 숫자가 아닌 ID도 허용한다. */
+/**
+ * 경로나 DB에 그대로 써도 되는 ID인지 확인한다. 숫자가 아닌 ID도 허용한다.
+ */
 export function isSafeId(value: unknown): value is string {
   return (
     typeof value === 'string' &&
@@ -29,12 +31,16 @@ export function isSafeId(value: unknown): value is string {
   );
 }
 
-/** 화면에 표시하거나 레이블로 저장할 수 있는 이름인지 확인한다. */
+/**
+ * 화면에 표시하거나 레이블로 저장할 수 있는 이름인지 확인한다.
+ */
 export function isSafeName(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0 && value.length <= 256 && !hasControlCharacter(value);
 }
 
-/** http·https 주소만 프로필 이미지로 사용한다. */
+/**
+ * http·https 주소만 프로필 이미지로 사용한다.
+ */
 export function profileImageUrl(value: unknown): string | null {
   if (typeof value !== 'string' || value.length === 0 || value.length > 2048) return null;
   try {

@@ -81,15 +81,19 @@
                   href={safeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title={`${name} 링크 열기`}>{url}</a
-                >{:else}<span class="self-open-profile-link">{url}</span>{/if}
+                  title={`${name} 링크 열기`}
+                >
+                  {url}
+                </a>{:else}<span class="self-open-profile-link">{url}</span>{/if}
               <button
                 type="button"
                 class="self-open-profile-copy"
                 aria-label={`${name} 링크 복사`}
                 title="링크 복사"
-                onclick={(event) => copyLink(event, url)}><CopyIcon /></button
+                onclick={(event) => copyLink(event, url)}
               >
+                <CopyIcon />
+              </button>
             </div>
           {/if}
           {#if created}<time class="self-open-profile-date" datetime={created.iso}>{created.text}</time>{/if}

@@ -8,9 +8,13 @@ import type { FeedMessageHidden, FeedUser, Member } from '../grpc/generated/aris
 
 import { User } from './user.js';
 
-/** 메세지를 삭제한 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 메세지를 삭제한 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class DeleteUser {
-  /** 삭제한 유저. 정보가 없으면 `null` */
+  /**
+   * 삭제한 유저. 정보가 없으면 `null`
+   */
   readonly deletedBy: User | null;
 
   constructor(deletedBy: User | null) {
@@ -18,9 +22,13 @@ export class DeleteUser {
   }
 }
 
-/** 메세지를 수정한 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 메세지를 수정한 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class EditUser {
-  /** 수정한 유저. 정보가 없으면 `null` */
+  /**
+   * 수정한 유저. 정보가 없으면 `null`
+   */
   readonly editedBy: User | null;
 
   constructor(editedBy: User | null) {
@@ -28,9 +36,13 @@ export class EditUser {
   }
 }
 
-/** 오픈채팅방에 들어온 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 오픈채팅방에 들어온 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class JoinUser {
-  /** 들어온 유저 */
+  /**
+   * 들어온 유저
+   */
   readonly joinedUser: User;
 
   /** @internal */
@@ -39,9 +51,13 @@ export class JoinUser {
   }
 }
 
-/** 채팅방을 나간 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 채팅방을 나간 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class LeaveUser {
-  /** 나간 유저 */
+  /**
+   * 나간 유저
+   */
   readonly leftUser: User;
 
   /** @internal */
@@ -50,11 +66,17 @@ export class LeaveUser {
   }
 }
 
-/** 강퇴한 유저와 강퇴된 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 강퇴한 유저와 강퇴된 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class KickUser {
-  /** 강퇴한 유저. 정보가 없으면 `null` */
+  /**
+   * 강퇴한 유저. 정보가 없으면 `null`
+   */
   readonly kickedBy: User | null;
-  /** 강퇴된 유저 */
+  /**
+   * 강퇴된 유저
+   */
   readonly kickedUser: User;
 
   /** @internal */
@@ -64,11 +86,17 @@ export class KickUser {
   }
 }
 
-/** 초대한 유저와 초대된 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 초대한 유저와 초대된 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class InviteUser {
-  /** 초대한 유저. 정보가 없으면 `null` */
+  /**
+   * 초대한 유저. 정보가 없으면 `null`
+   */
   readonly invitedBy: User | null;
-  /** 초대된 유저 목록 */
+  /**
+   * 초대된 유저 목록
+   */
   readonly invitedUsers: [User, ...User[]];
 
   constructor(invitedBy: User | null, invitedUsers: [User, ...User[]]) {
@@ -88,11 +116,17 @@ export class InviteUser {
   }
 }
 
-/** 메세지를 가린 유저와 가려진 메세지의 작성자를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 메세지를 가린 유저와 가려진 메세지의 작성자를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class HideUser {
-  /** 메세지를 가린 유저. 정보가 없으면 `null` */
+  /**
+   * 메세지를 가린 유저. 정보가 없으면 `null`
+   */
   readonly hiddenBy: User | null;
-  /** 가려진 메세지를 보낸 유저 목록. 찾지 못한 유저는 `null` */
+  /**
+   * 가려진 메세지를 보낸 유저 목록. 찾지 못한 유저는 `null`
+   */
   readonly hiddenUsers: [User | null, ...(User | null)[]];
 
   constructor(hiddenBy: User | null, hiddenUsers: [User | null, ...(User | null)[]]) {
@@ -117,7 +151,9 @@ export class HideUser {
   }
 }
 
-/** 부방장 임명·해제나 방장 위임에 관련된 유저를 담는 객체. `User`를 상속하지 않습니다. */
+/**
+ * 부방장 임명·해제나 방장 위임에 관련된 유저를 담는 객체. `User`를 상속하지 않습니다.
+ */
 export class MemberTypeChangeUser {
   /**
    * @param promotedUser 부방장으로 임명된 유저
@@ -132,17 +168,23 @@ export class MemberTypeChangeUser {
     readonly newHost?: User
   ) {}
 
-  /** 부방장으로 임명된 유저 정보를 만듭니다. */
+  /**
+   * 부방장으로 임명된 유저 정보를 만듭니다.
+   */
   static promote(user: User): MemberTypeChangeUser {
     return new MemberTypeChangeUser(user);
   }
 
-  /** 부방장에서 해제된 유저 정보를 만듭니다. */
+  /**
+   * 부방장에서 해제된 유저 정보를 만듭니다.
+   */
   static demote(user: User): MemberTypeChangeUser {
     return new MemberTypeChangeUser(undefined, user);
   }
 
-  /** 이전 방장과 새 방장 정보를 만듭니다. */
+  /**
+   * 이전 방장과 새 방장 정보를 만듭니다.
+   */
   static handover(previousHost: User, newHost: User): MemberTypeChangeUser {
     return new MemberTypeChangeUser(undefined, undefined, previousHost, newHost);
   }

@@ -32,7 +32,9 @@ export function roleList(database: Database.Database, role: Role): RoleEntry[] {
   return rows.map((row) => (row.name === null ? { id: row.id } : { id: row.id, name: row.name }));
 }
 
-/** 관리자·밴 유저의 이름을 저장해 채팅방 밖에서도 목록에 이름으로 표시한다. */
+/**
+ * 관리자·밴 유저의 이름을 저장해 채팅방 밖에서도 목록에 이름으로 표시한다.
+ */
 export function saveKnownNames(
   database: Database.Database,
   members: readonly Pick<DashboardMember, 'id' | 'name'>[],

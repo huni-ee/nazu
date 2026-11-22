@@ -92,7 +92,9 @@ async function sendStatic(response: ServerResponse, pathname: string): Promise<v
   response.end(file);
 }
 
-/** 화면 파일(index.html, 빌드한 CSS·JS, 이미지, 폰트)을 보낸다. 심볼릭 링크로 web 폴더 밖을 읽지 않는다. */
+/**
+ * 화면 파일(index.html, 빌드한 CSS·JS, 이미지, 폰트)을 보낸다. 심볼릭 링크로 web 폴더 밖을 읽지 않는다.
+ */
 export async function handleStaticRoute({ request, response, url }: RouteContext): Promise<boolean> {
   const pathname = url.pathname;
   if (request.method !== 'GET') return false;

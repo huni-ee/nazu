@@ -8,7 +8,17 @@ const storageKey = 'arisa.dashboard.session';
 const historyKey = 'arisaDashboardSession';
 const connectionKey = 'arisa-dashboard-connection';
 const tabs = ['home', 'friends', 'chat', 'openchat', 'settings', 'roles'];
-type DashboardSession = { connectionId: string; tab: string; roleView: 'ban' | 'admin' };
+type DashboardView = {
+  tab: string;
+  roleView: 'ban' | 'admin';
+  selectedChannelId: string | null;
+  selectedMemberId: string | null;
+  selectedOpenGroupKey: string | null;
+  selectedFriendKey: string | null;
+  selectedSelf: boolean;
+  mobileSelection: boolean;
+};
+type DashboardSession = DashboardView & { connectionId: string };
 type StoredSession = Partial<DashboardSession> & { revision?: number };
 let sessionRevision = 0;
 
@@ -34,12 +44,28 @@ function savedRevision(value: StoredSession | null | undefined) {
   return typeof revision === 'number' && Number.isSafeInteger(revision) && revision >= 0 ? revision : 0;
 }
 
-function normalizeSession(value: StoredSession | null | undefined) {
+function optionalString(value: unknown) {
+  return typeof value === 'string' && value ? value : null;
+}
+
+function normalizeView(data: Partial<DashboardView>): DashboardView {
+  return {
+    tab: typeof data.tab === 'string' && tabs.includes(data.tab) ? data.tab : 'home',
+    roleView: data.roleView === 'ban' ? 'ban' : 'admin',
+    selectedChannelId: optionalString(data.selectedChannelId),
+    selectedMemberId: optionalString(data.selectedMemberId),
+    selectedOpenGroupKey: optionalString(data.selectedOpenGroupKey),
+    selectedFriendKey: optionalString(data.selectedFriendKey),
+    selectedSelf: data.selectedSelf === true,
+    mobileSelection: data.mobileSelection === true
+  };
+}
+
+function normalizeSession(value: StoredSession | null | undefined): DashboardSession {
   const data = value && typeof value === 'object' ? value : {};
   return {
     connectionId: typeof data.connectionId === 'string' ? data.connectionId : '',
-    tab: typeof data.tab === 'string' && tabs.includes(data.tab) ? data.tab : 'home',
-    roleView: data.roleView === 'ban' ? ('ban' as const) : ('admin' as const)
+    ...normalizeView(data)
   };
 }
 
@@ -135,12 +161,22 @@ export function setActiveConnectionId(id: string) {
 }
 
 export function getDashboardView() {
-  const { tab, roleView } = currentSession;
-  return { tab, roleView };
+  return normalizeView(currentSession);
 }
 
-export function prepareConnectionSwitch(id: string, view: Partial<DashboardSession>) {
-  const session = normalizeSession({ ...view, connectionId: id });
+/**
+ * 보던 화면을 저장해 새로고침 뒤에도 연다. 바뀌었을 때만 저장한다.
+ */
+export function saveDashboardView(view: DashboardView) {
+  const next = normalizeView(view);
+  if (JSON.stringify(next) === JSON.stringify(normalizeView(currentSession))) return;
+  Object.assign(currentSession, next);
+  saveSession(currentSession);
+}
+
+export function prepareConnectionSwitch(id: string, view: Pick<DashboardView, 'tab' | 'roleView'>) {
+  // 이전 계정의 채팅방·친구 선택은 넘기지 않는다.
+  const session = normalizeSession({ connectionId: id, tab: view.tab, roleView: view.roleView });
   if (!saveSession(session)) return false;
   rememberConnection(session.connectionId);
   return true;

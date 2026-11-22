@@ -8,11 +8,17 @@ import type { Member } from '../grpc/generated/arisa.pb.js';
 import type { NormalMemberType, NormalUserRaw } from '../types/user.js';
 import { User } from './user.js';
 
-/** 일반 채팅방 유저 */
+/**
+ * 일반 채팅방 유저
+ */
 export class NormalUser extends User {
-  /** 프로필 종류. 일반 채팅방은 항상 `default` */
+  /**
+   * 프로필 종류. 일반 채팅방은 항상 `default`
+   */
   readonly profileType = 'default' as const;
-  /** 채팅방 멤버 종류 */
+  /**
+   * 채팅방 멤버 종류
+   */
   readonly memberType: NormalMemberType;
 
   constructor(
@@ -38,7 +44,9 @@ export class NormalUser extends User {
     };
   }
 
-  /** @internal 서버의 멤버 데이터로 유저를 만듭니다. */
+  /**
+   * @internal 서버의 멤버 데이터로 유저를 만듭니다.
+   */
   static from(member: Member, memberType: NormalMemberType = 'member', customName: string | null = null): NormalUser {
     return new NormalUser(member.id, member.nickname, member.profileImageUrl ?? null, memberType, customName);
   }

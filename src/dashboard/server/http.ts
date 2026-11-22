@@ -9,7 +9,9 @@ import { isRecord } from './validation.js';
 
 const maxBodyBytes = 4096;
 
-/** 응답 상태 코드와 화면에 보여 줄 메세지를 담은 오류 */
+/**
+ * 응답 상태 코드와 화면에 보여 줄 메세지를 담은 오류
+ */
 export class HttpError extends Error {
   constructor(
     readonly status: number,
@@ -24,7 +26,9 @@ export function sendJson(response: ServerResponse, status: number, value: unknow
   response.end(JSON.stringify(value));
 }
 
-/** 다른 사이트의 폼이나 단순 요청은 이 헤더를 붙일 수 없으므로, 상태를 바꾸는 요청에 요구한다. */
+/**
+ * 다른 사이트의 폼이나 단순 요청은 이 헤더를 붙일 수 없으므로, 상태를 바꾸는 요청에 요구한다.
+ */
 export function requireDashboardHeader(request: IncomingMessage): void {
   if (request.headers['x-arisa-dashboard'] !== '1') throw new HttpError(403, '대시보드 요청 헤더가 필요합니다.');
 }

@@ -48,8 +48,9 @@
               aria-busy={String(pending)}
               disabled={pending}
               onclick={() => onChange(person, kind, !on)}
-              ><span class="friend-role-switch-track" aria-hidden="true"></span></button
             >
+              <span class="friend-role-switch-track" aria-hidden="true"></span>
+            </button>
           </div>
         </div>
       {/each}

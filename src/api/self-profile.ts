@@ -18,7 +18,9 @@ import type {
 } from './types.js';
 import { JsonUtil } from '../utils/json/index.js';
 
-/** 등록된 프로필 목록을 조회한다. */
+/**
+ * 등록된 프로필 목록을 조회한다.
+ */
 function requestProfileList(credential: Credential): Promise<SelfRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile/list', {
     headers: getHeaders(credential),
@@ -27,7 +29,9 @@ function requestProfileList(credential: Credential): Promise<SelfRequestResult> 
   });
 }
 
-/** 선택한 내 프로필의 상세 정보를 조회한다. */
+/**
+ * 선택한 내 프로필의 상세 정보를 조회한다.
+ */
 function requestSelfProfile(credential: Credential, profileId: string): Promise<SelfRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile25/me', {
     headers: getHeaders(credential),
@@ -37,7 +41,9 @@ function requestSelfProfile(credential: Credential, profileId: string): Promise<
   });
 }
 
-/** 내 게시물 상세를 조회한다. 큰 게시물 ID는 문자열로 전달한다. */
+/**
+ * 내 게시물 상세를 조회한다. 큰 게시물 ID는 문자열로 전달한다.
+ */
 function requestSelfPosts(credential: Credential, postIds: readonly string[]): Promise<SelfRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile25/post/view/me', {
     headers: getHeaders(credential),
@@ -47,7 +53,9 @@ function requestSelfPosts(credential: Credential, postIds: readonly string[]): P
   });
 }
 
-/** 선택한 내 프로필의 게시물 목록 다음 페이지를 조회한다. */
+/**
+ * 선택한 내 프로필의 게시물 목록 다음 페이지를 조회한다.
+ */
 function requestSelfPostPage(credential: Credential, profileId: string, cursor: string): Promise<SelfRequestResult> {
   return axios.get<string>('https://talk-pilsner.kakao.com/talk/profile25/post/list/me', {
     headers: getHeaders(credential),
@@ -57,7 +65,9 @@ function requestSelfPostPage(credential: Credential, profileId: string, cursor: 
   });
 }
 
-/** 메인 프로필을 찾아 표시 정보와 상세 프로필을 함께 조회한다. */
+/**
+ * 메인 프로필을 찾아 표시 정보와 상세 프로필을 함께 조회한다.
+ */
 export async function initSelfProfile(credential: Credential): Promise<SelfProfileDetail> {
   const { revision, main } = await getMainProfile(credential);
   const profile = getJson<SelfProfileResponse>(await requestSelfProfile(credential, main.profileId));
@@ -73,13 +83,17 @@ export async function initSelfProfile(credential: Credential): Promise<SelfProfi
   };
 }
 
-/** 내 게시물 상세를 조회하고 응답 JSON을 읽는다. 큰 게시물 ID는 문자열로 전달한다. */
+/**
+ * 내 게시물 상세를 조회하고 응답 JSON을 읽는다. 큰 게시물 ID는 문자열로 전달한다.
+ */
 export async function initSelfPosts(credential: Credential, postIds: readonly string[]): Promise<SelfPostsResponse> {
   const posts = getJson<SelfPostsResponse>(await requestSelfPosts(credential, postIds));
   return { ...posts, profileId: String(posts.profileId) };
 }
 
-/** 최신 프로필 목록에서 메인 프로필을 찾아 게시물 다음 페이지를 조회한다. */
+/**
+ * 최신 프로필 목록에서 메인 프로필을 찾아 게시물 다음 페이지를 조회한다.
+ */
 export async function initSelfPostPage(credential: Credential, cursor: string): Promise<SelfPostPageResponse> {
   const { main } = await getMainProfile(credential);
   return getJson<SelfPostPageResponse>(await requestSelfPostPage(credential, main.profileId, cursor));
@@ -87,9 +101,9 @@ export async function initSelfPostPage(credential: Credential, cursor: string): 
 
 function getHeaders(credential: Credential): Record<string, string> {
   return {
-    A: 'android/26.8.2/ko',
+    A: 'android/26.10.1/ko',
     Authorization: `${credential.accessToken}-${credential.deviceUuid}`,
-    'User-Agent': 'KT/26.8.2 An/14 ko'
+    'User-Agent': 'KT/26.10.1 An/14 ko'
   };
 }
 

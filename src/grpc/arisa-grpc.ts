@@ -41,7 +41,9 @@ type RawQueryParam = string | number | boolean | null;
 
 const MEDIA_CHUNK_SIZE = 1024 * 1024;
 
-/** 파일을 조각으로 나눠 보내는 미디어 업로드 스트림 */
+/**
+ * 파일을 조각으로 나눠 보내는 미디어 업로드 스트림
+ */
 export interface MediaUploadStream {
   file(name: string, mime: string, size: number): Promise<void>;
   chunk(data: Buffer): Promise<void>;
@@ -65,7 +67,9 @@ export class ArisaGrpc {
     });
   }
 
-  /** 닫힌 클라이언트는 다시 만들고, Arisa 서버가 응답하는지 확인한다. */
+  /**
+   * 닫힌 클라이언트는 다시 만들고, Arisa 서버가 응답하는지 확인한다.
+   */
   connect(): Promise<void> {
     if (this.closed) {
       this.client = this.createClient();
@@ -74,12 +78,16 @@ export class ArisaGrpc {
     return this.healthCheck();
   }
 
-  /** Arisa 서버가 1초 안에 응답하는지 확인한다. */
+  /**
+   * Arisa 서버가 1초 안에 응답하는지 확인한다.
+   */
   async healthCheck(): Promise<void> {
     await this.unary(ArisaService.healthCheck, {}, { deadline: Date.now() + 1000 });
   }
 
-  /** 서버 이벤트 스트림을 구독한다. */
+  /**
+   * 서버 이벤트 스트림을 구독한다.
+   */
   subscribeEvents(): ClientReadableStream<Event> {
     const method = ArisaService.subscribeEvents;
     this.stream = this.client.makeServerStreamRequest(
@@ -91,7 +99,9 @@ export class ArisaGrpc {
     return this.stream;
   }
 
-  /** 채팅방에 메세지를 보낸다. */
+  /**
+   * 채팅방에 메세지를 보낸다.
+   */
   async reply(channelId: string, message: string, threadId?: string | null): Promise<void> {
     const request: ReplyRequest = { channelId, message };
     if (threadId !== undefined && threadId !== null) {
@@ -101,19 +111,25 @@ export class ArisaGrpc {
     await this.unary(ArisaService.reply, request);
   }
 
-  /** 채팅방을 읽음 처리한다. */
+  /**
+   * 채팅방을 읽음 처리한다.
+   */
   async markRead(channelId: string): Promise<void> {
     const request: MarkReadRequest = { channelId };
     await this.unary(ArisaService.markRead, request);
   }
 
-  /** 채팅방에 입장한다. */
+  /**
+   * 채팅방에 입장한다.
+   */
   async enterChannel(channelId: string): Promise<void> {
     const request: EnterChannelRequest = { channelId };
     await this.unary(ArisaService.enterChannel, request);
   }
 
-  /** 미디어 업로드 스트림을 열고, 파일 정보와 조각을 보낼 함수를 돌려준다. */
+  /**
+   * 미디어 업로드 스트림을 열고, 파일 정보와 조각을 보낼 함수를 돌려준다.
+   */
   openMediaStream(channelId: string, count: number, mode: MediaModeName): MediaUploadStream {
     const method = ArisaService.sendMediaByChunk;
     const { promise: done, resolve: resolveDone, reject: rejectDone } = Promise.withResolvers<void>();
@@ -220,55 +236,73 @@ export class ArisaGrpc {
     }
   }
 
-  /** Arisa 인증 정보를 가져온다. */
+  /**
+   * Arisa 인증 정보를 가져온다.
+   */
   getCredential(): Promise<Credential> {
     return this.unary(ArisaService.getCredential, {});
   }
 
-  /** 채팅방 기준으로 유저 한 명의 정보를 가져온다. `channelId`가 `'0'`이면 일반 유저로 조회한다. */
+  /**
+   * 채팅방 기준으로 유저 한 명의 정보를 가져온다. `channelId`가 `'0'`이면 일반 유저로 조회한다.
+   */
   getUser(channelId: string, userId: string): Promise<Member> {
     const request: GetUserRequest = { channelId, userId };
     return this.unary(ArisaService.getUser, request);
   }
 
-  /** 채팅방 유저 정보를 가져온다. */
+  /**
+   * 채팅방 유저 정보를 가져온다.
+   */
   async getUsers(channelId: string, userIds: string[]): Promise<Member[]> {
     const request: GetUsersRequest = { channelId, userIds };
     return (await this.unary(ArisaService.getUsers, request)).members;
   }
 
-  /** 메세지 하나를 가져온다. */
+  /**
+   * 메세지 하나를 가져온다.
+   */
   getMessage(channelId: string, logId: string): Promise<Event> {
     const request: GetMessageRequest = { channelId, messageId: logId };
     return this.unary(ArisaService.getMessage, request);
   }
 
-  /** 여러 메세지를 가져온다. */
+  /**
+   * 여러 메세지를 가져온다.
+   */
   async getMessages(channelId: string, logIds: string[]): Promise<Event[]> {
     const request: GetMessagesRequest = { channelId, messageIds: logIds };
     return (await this.unary(ArisaService.getMessages, request)).events;
   }
 
-  /** 채팅방 정보를 가져온다. */
+  /**
+   * 채팅방 정보를 가져온다.
+   */
   getChannel(channelId: string): Promise<ChannelData> {
     const request: GetChannelRequest = { channelId };
     return this.unary(ArisaService.getChannel, request);
   }
 
-  /** 채팅방 멤버 목록을 가져온다. */
+  /**
+   * 채팅방 멤버 목록을 가져온다.
+   */
   getChannelMembers(channelId: string): Promise<ChannelMembers> {
     const request: GetChannelMembersRequest = { channelId };
     return this.unary(ArisaService.getChannelMembers, request);
   }
 
-  /** 암호화된 값을 복호화한다. */
+  /**
+   * 암호화된 값을 복호화한다.
+   */
   async decrypt(ciphertext: string, enc: number, userId?: string | null): Promise<string> {
     const request: DecryptRequest = { ciphertext, enc };
     if (userId !== undefined && userId !== null) request.userId = userId;
     return (await this.unary(ArisaService.decrypt, request)).plaintext;
   }
 
-  /** Arisa 서버에서 SQL을 실행한다. */
+  /**
+   * Arisa 서버에서 SQL을 실행한다.
+   */
   async rawQuery(
     sql: string,
     params: readonly RawQueryParam[] = [],
@@ -306,7 +340,9 @@ export class ArisaGrpc {
     });
   }
 
-  /** gRPC 연결을 종료한다. */
+  /**
+   * gRPC 연결을 종료한다.
+   */
   close(): void {
     if (this.closed) return;
     this.closed = true;

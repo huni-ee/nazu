@@ -198,8 +198,11 @@
           class:is-active={selectedType === filter.type}
           data-post-filter={filter.type}
           aria-pressed={String(selectedType === filter.type)}
-          onclick={() => selectFilter(filter.type)}>{filter.label} {filter.count}</button
+          onclick={() => selectFilter(filter.type)}
         >
+          {filter.label}
+          {filter.count}
+        </button>
       {/each}
     </div>
     <div class="friend-post-list" bind:this={list}>
@@ -232,8 +235,10 @@
         >
           {#if entry.post.pinned || mediaCount}<div class="friend-post-badges">
               {#if entry.post.pinned}<span class="friend-post-badge">고정</span>{/if}{#if mediaCount}<span
-                  class="friend-post-badge">첨부 {mediaCount}개</span
-                >{/if}
+                  class="friend-post-badge"
+                >
+                  첨부 {mediaCount}개
+                </span>{/if}
             </div>{/if}
           <div class="friend-post-body" class:has-image={Boolean(entry.imageUrl)} class:is-text-only={!entry.imageUrl}>
             {#if entry.imageUrl}<div class="friend-post-media">
@@ -260,8 +265,10 @@
       bind:this={more}
       hidden={!nextCursor && !pending}
       disabled={pending}
-      onclick={loadMore}>{pending ? '불러오는 중…' : '게시물 더 보기'}</button
+      onclick={loadMore}
     >
+      {pending ? '불러오는 중…' : '게시물 더 보기'}
+    </button>
     <p class="friend-post-page-error" role="alert" hidden={!pageError}>{pageError}</p>
   </section>
 {/if}

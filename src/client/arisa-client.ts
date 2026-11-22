@@ -21,7 +21,7 @@ import { EventHandler } from './event-handler.js';
 import { Listeners, type ClientListenerMap } from './listeners.js';
 import { OpenProfileWatcher } from './open-profile-watcher.js';
 import { isLongId } from '../utils/id/index.js';
-import { KakaoLink, type KakaoLinkOptions } from '../kakao-link/index.js';
+import { KakaoLink, type KakaoLinkOptions } from '../kakaolink/index.js';
 
 function validateUserId(value: unknown): asserts value is string {
   if (!isLongId(value)) {
@@ -51,13 +51,19 @@ function formatDuration(ms: number): string {
  * ```
  */
 export class ArisaClient {
-  /** 연결할 Arisa 서버 주소 */
+  /**
+   * 연결할 Arisa 서버 주소
+   */
   readonly target: string;
 
-  /** 이벤트의 `UserSelf`에 표시할 이름. 지정하지 않았으면 `null` */
+  /**
+   * 이벤트의 `UserSelf`에 표시할 이름. 지정하지 않았으면 `null`
+   */
   readonly botName: string | null;
 
-  /** 오픈프로필 변경을 확인하는 간격(밀리초) */
+  /**
+   * 오픈프로필 변경을 확인하는 간격(밀리초)
+   */
   readonly openProfileIntervalMs: number;
 
   private readonly dashboardEnabled: boolean;
@@ -142,7 +148,9 @@ export class ArisaClient {
     }
   }
 
-  /** Arisa 서버가 응답하는지 확인합니다. 응답하지 않으면 오류가 납니다. */
+  /**
+   * Arisa 서버가 응답하는지 확인합니다. 응답하지 않으면 오류가 납니다.
+   */
   async healthCheck(): Promise<void> {
     await this.grpc.healthCheck();
   }
@@ -405,7 +413,9 @@ export class ArisaClient {
     return this.dashboardClosing;
   }
 
-  /** 클라이언트를 여러 개 띄워도 구분되도록 연결 대상 주소를 앞에 붙인다. */
+  /**
+   * 클라이언트를 여러 개 띄워도 구분되도록 연결 대상 주소를 앞에 붙인다.
+   */
   private log(message: string): void {
     console.log(`[${this.target}] ${message}`);
   }

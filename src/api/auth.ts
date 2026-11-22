@@ -12,12 +12,16 @@ import { initSelfProfile } from './self-profile.js';
 
 const profiles = new WeakMap<Database.Database, Map<string, SelfProfile>>();
 
-/** 인증 정보로 메인 프로필을 조회해 저장한다. */
+/**
+ * 인증 정보로 메인 프로필을 조회해 저장한다.
+ */
 export async function initAuth(credential: Credential): Promise<KakaoAuthData> {
   return saveAuthProfile(credential, await initSelfProfile(credential));
 }
 
-/** 조회한 메인 프로필을 인증 정보와 함께 DB와 메모리에 저장한다. */
+/**
+ * 조회한 메인 프로필을 인증 정보와 함께 DB와 메모리에 저장한다.
+ */
 export function saveAuthProfile(
   credential: Credential,
   detail: SelfProfileDetail,
@@ -44,7 +48,9 @@ export function saveAuthProfile(
   return data;
 }
 
-/** 계정 ID로 저장한 인증 정보와 프로필을 읽는다. */
+/**
+ * 계정 ID로 저장한 인증 정보와 프로필을 읽는다.
+ */
 function readAuth(userId: string, database: Database.Database | null = getDatabase()): KakaoAuthData | null {
   if (database === null) return null;
   const row = database
@@ -62,7 +68,9 @@ function readAuth(userId: string, database: Database.Database | null = getDataba
   }
 }
 
-/** 계정 ID로 저장된 내 프로필을 읽는다. */
+/**
+ * 계정 ID로 저장된 내 프로필을 읽는다.
+ */
 export function getSelfProfile(userId: string, database: Database.Database | null = getDatabase()): SelfProfile | null {
   if (database === null) return null;
   const cached = profiles.get(database)?.get(userId);

@@ -46,7 +46,9 @@ export class EventHandler {
     private readonly listeners: Listeners
   ) {}
 
-  /** 서버 이벤트를 알맞은 리스너에 전달한다. */
+  /**
+   * 서버 이벤트를 알맞은 리스너에 전달한다.
+   */
   async handleEvent(event: Event): Promise<void> {
     if (event.value?.$case === 'message') {
       await this.handleMessage(event.value.message);
@@ -227,7 +229,9 @@ export class EventHandler {
     }
   }
 
-  /** 이벤트에 대응하는 리스너 이름을 돌려준다. */
+  /**
+   * 이벤트에 대응하는 리스너 이름을 돌려준다.
+   */
   eventName(event: Event): string {
     if (event.value?.$case === 'message') return 'message';
     if (event.value?.$case !== 'feed') return 'unknown';
@@ -244,7 +248,9 @@ export class EventHandler {
     return 'feed';
   }
 
-  /** 메세지 이벤트를 전달한다. */
+  /**
+   * 메세지 이벤트를 전달한다.
+   */
   private async handleMessage(message: MessageEvent): Promise<void> {
     if (!this.listeners.has('message') || message.channel === undefined) return;
 
@@ -254,7 +260,9 @@ export class EventHandler {
     await this.listeners.emit('message', chat, channel);
   }
 
-  /** 방장·부방장 변경 이벤트를 전달한다. */
+  /**
+   * 방장·부방장 변경 이벤트를 전달한다.
+   */
   private async handleMemberChange(
     channelData: ChannelData,
     author: Member | undefined,

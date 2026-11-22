@@ -364,14 +364,15 @@
             tabindex={mode === option ? 0 : -1}
             on:click={() => changeMode(option)}
             on:keydown={(event) => tabKey(event, option)}
-            >{key === 'user'
+          >
+            {key === 'user'
               ? option === 'single'
                 ? '한 명 조회'
                 : '여러 명 조회'
               : option === 'single'
                 ? '한 개 조회'
-                : '여러 개 조회'}</button
-          >
+                : '여러 개 조회'}
+          </button>
         {/each}
       </div>
     {/if}
@@ -446,11 +447,11 @@
           </p>{/if}
         <div class="home-tool-actions">
           <p class="home-tool-connection-note" hidden={connection === 'connected'}>{connectionNote}</p>
-          <button class="home-tool-submit" type="submit" disabled={busy || connection !== 'connected'}
-            ><Icon name={key === 'decrypt' ? 'decrypt' : key === 'enter' ? 'channel-enter' : 'lookup-search'} /><span
-              >{submitLabel}</span
-            ></button
-          >
+          <button class="home-tool-submit" type="submit" disabled={busy || connection !== 'connected'}>
+            <Icon name={key === 'decrypt' ? 'decrypt' : key === 'enter' ? 'channel-enter' : 'lookup-search'} /><span>
+              {submitLabel}
+            </span>
+          </button>
         </div>
         <p
           class="home-tool-status"
